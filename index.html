@@ -1074,7 +1074,7 @@ const NAMES = {
     callLog: [
       // { name: '테스트1', dir: 'in', at: '10/25 17:00' },
     ],
-    /* 카메라: 사진 경로 (예: 'images/test.jpg'). 비워두면 빈 화면 */
+    /* 카메라: 사진 경로 (예: 'images/test.jpg') 또는 { view:'큰 사진', thumb:'작은 사진' }. 비워두면 빈 화면 */
     camera: '',
     /* 홈화면 위젯·앱의 내용 (이름별로 다르게)
        todos    : 캘린더 위젯의 오늘 할 일. 예: ['10시 회의', '장보기']  (비우면 "오늘 할 일 없음")
@@ -1169,7 +1169,7 @@ const NAMES = {
         call: ['어? 선배 웬일이에요', '안 그래도 소식 들었어요', '저 선배 커플 응원했어요', '결혼식 하면 초대 좀 해주세요'] }
     ],
     callLog: [],
-    camera: '',
+    camera: { view: 'images/baedoae_cam_big.jpg', thumb: 'images/baedoae_cam_small.jpg' },
     apps: { todos: ['17:00 데이트'], music: { url: 'https://youtu.be/rfykBICvtCo?si=cjNnbjijXMkETYKA', title: '', artist: '', color: '#e0526b' }, searches: ['남자 향수 추천', '국내 여행지 추천', '남다현', '배도애 남다현'], videos: [
       { url: 'https://youtu.be/1YLd9L6KBCM?si=lIePcDbum83ij37C', meta: '', progress: 0.5 },
       { url: 'https://youtu.be/rFjRsWPGZxY?si=mz4XAAgwTel8inml', meta: '', progress: 1 },
@@ -1947,9 +1947,11 @@ $('kInput').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.isCom
    14. 카메라
    ==================================================== */
 function loadCamera(cfg){
-  const img = cfg.camera ? `url("${String(cfg.camera).replace(/"/g,'%22')}")` : '';
-  $('camVf').style.backgroundImage = img;
-  $('camThumb').style.backgroundImage = img;
+  /* camera: '경로' 하나면 큰 화면·작은 사진 모두 같은 사진 / { view:'큰 사진', thumb:'작은 사진' } 이면 각각 */
+  const c = cfg.camera, u = f => f ? `url("${String(f).replace(/"/g,'%22')}")` : '';
+  const view = (c && typeof c === 'object') ? c.view : c, thumb = (c && typeof c === 'object') ? c.thumb : c;
+  $('camVf').style.backgroundImage = u(view);
+  $('camThumb').style.backgroundImage = u(thumb);
 }
 $('openCam').addEventListener('click', () => show('cameraApp'));
 $('closeCam').addEventListener('click', () => show('home'));
