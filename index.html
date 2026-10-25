@@ -1976,7 +1976,10 @@ $('shutter').addEventListener('click', () => {
 /* ====================================================
    15. 홈화면: 위젯 + 앱 아이콘
    ==================================================== */
-const ICON_IMG = {};       // 앱 아이콘을 직접 만든 이미지로 바꾸려면: { instagram: 'images/insta.png', karrot: 'images/karrot.png' }
+const ICON_IMG = {         // 앱 아이콘 이미지. 다른 앱도 { 앱id: '경로' } 로 추가하면 그림 대신 이미지가 나옴
+  instagram: 'images/icons/instagram.png', internet: 'images/icons/internet.png',
+  youtube: 'images/icons/youtube.png', karrot: 'images/icons/karrot.png',
+};
 
 /* [앱 id, 이름, 눌리는 앱인지]  → 눌리지 않는 앱은 이미지만 보임 */
 const HOME_GRID = [
@@ -2412,6 +2415,7 @@ function renderYoutube(box){
 /* ====================================================
    20. 갤러리 (사진 목록 보기만)
    ==================================================== */
+const SHOW_PHOTO_DATE = false;           // true 로 바꾸면 갤러리에 날짜가 표시됨
 function renderGallery(box){
   const top = el('div','gl-top');
   top.appendChild(el('b','','갤러리'));
@@ -2429,7 +2433,7 @@ function renderGallery(box){
     else groups.push({ ts: p.ts, items: [p] });
   });
   groups.forEach(g => {
-    sc.appendChild(el('div','gl-d',`${g.ts.getMonth() + 1}월 ${g.ts.getDate()}일 ${DAYS[g.ts.getDay()]}요일`));
+    if (SHOW_PHOTO_DATE) sc.appendChild(el('div','gl-d',`${g.ts.getMonth() + 1}월 ${g.ts.getDate()}일 ${DAYS[g.ts.getDay()]}요일`));
     const grid = el('div','gl-grid');
     g.items.forEach(p => {
       const t = el('div','gl-p');
