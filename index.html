@@ -1170,7 +1170,15 @@ const NAMES = {
     ],
     callLog: [],
     camera: '',
-    apps: { todos: ['17:00 데이트'], music: { url: 'https://youtu.be/rfykBICvtCo?si=cjNnbjijXMkETYKA', title: '', artist: '', color: '#e0526b' }, searches: [], videos: [], photos: [], alarms: [], couple: { answers: ['', '', '', ''] } },
+    apps: { todos: ['17:00 데이트'], music: { url: 'https://youtu.be/rfykBICvtCo?si=cjNnbjijXMkETYKA', title: '', artist: '', color: '#e0526b' }, searches: ['남자 향수 추천', '국내 여행지 추천', '남다현', '배도애 남다현'], videos: [
+      { url: 'https://youtu.be/1YLd9L6KBCM?si=lIePcDbum83ij37C', meta: '', progress: 0.5 },
+      { url: 'https://youtu.be/rFjRsWPGZxY?si=mz4XAAgwTel8inml', meta: '', progress: 1 },
+      { url: 'https://youtu.be/n7LxP5SCGZk?si=wN9KhfUwqCVS-Jk4', meta: '', progress: 0 },
+    ], photos: [], alarms: [], couple: { answers: [
+      '성격 좋을 것 같았지~~ 대뜸 반말한 건 맞는데 진짜 나보다 어릴 줄 알았어 ㅋㅋ',
+      '같이 데이트하면 다 좋은데~~ 그래도 데이트 길게 갈 일은 잘 없으니까 여행 가면 좋겠다',
+      '다현이가 눈이 진짜 예쁘잖아 ㅎㅎ',
+      '' ] } },
     kakao: { me: { name: '배도애', status: '' }, pay: 0, friends: [], chats: [] },
     messages: []
   },
@@ -2294,6 +2302,19 @@ function renderInternet(box){
 let ytVideoPlayer = null;
 function destroyVideo(){ if (ytVideoPlayer){ try { ytVideoPlayer.destroy(); } catch (e) {} ytVideoPlayer = null; } }
 
+/* 유튜브 영상 정보(제목·채널)를 링크에서 자동으로 가져옴 (유튜브 oEmbed). 직접 적은 값이 우선.
+   썸네일도 링크에서 가져옴. 조회수·업로드일은 가져올 수 없어 meta 에 직접 적기 */
+const YT_META = {};
+function ytMeta(id, cb){
+  if (YT_META[id]){ if (YT_META[id].ok) cb(YT_META[id]); return; }
+  YT_META[id] = { ok: false, cbs: [cb] };
+  fetch('https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent('https://www.youtube.com/watch?v=' + id))
+    .then(r => r.json())
+    .then(j => { const m = YT_META[id]; m.ok = true; m.title = j.title || ''; m.channel = j.author_name || ''; m.cbs.forEach(f => f(m)); })
+    .catch(() => { delete YT_META[id]; });
+}
+const ytThumb = id => `url("https://i.ytimg.com/vi/${id}/hqdefault.jpg") center/cover no-repeat`;
+
 function renderYoutube(box){
   function list(){
     box.innerHTML = '';
@@ -2310,7 +2331,9 @@ function renderYoutube(box){
     if (!vids.length) sc.appendChild(gEmpty('동영상 없음'));
     vids.forEach(v => {
       const b = el('button','yt-v' + (ytId(v.url) ? ' link' : '')); b.type = 'button';
-      const th = el('div','yt-th'); th.style.background = v.color || '#888';
+      const vid = ytId(v.url);
+      const th = el('div','yt-th'); th.style.background = v.color || '#2a2a2e';
+      if (vid && !v.color) th.style.background = ytThumb(vid) + ', #2a2a2e';
       if (v.length) th.appendChild(el('span','yt-len',v.length));
       const prog = Math.max(0, Math.min(1, Number(v.progress) || 0));
       if (prog > 0){
@@ -2319,12 +2342,22 @@ function renderYoutube(box){
       }
       b.appendChild(th);
       const info = el('div','yt-info');
-      info.appendChild(el('span','yt-av',initial(v.channel || v.title || '?')));
+      const avEl = el('span','yt-av',initial(v.channel || v.title || '?'));
+      info.appendChild(avEl);
       const tx = el('div');
-      tx.appendChild(el('div','yt-t',v.title || ''));
-      const seen = prog >= 1 ? ' · 시청 완료' : (prog > 0 ? ' · 이어서 시청' : '');
-      tx.appendChild(el('div','yt-m',`${v.channel || ''}${v.meta ? ' · ' + v.meta : ''}${seen}`));
+      const tEl = el('div','yt-t',v.title || ''), mEl = el('div','yt-m');
+      tx.appendChild(tEl);
+      const seen = prog >= 1 ? '시청 완료' : (prog > 0 ? '이어서 시청' : '');
+      const paint = ch => { mEl.textContent = [ch, v.meta, seen].filter(Boolean).join(' · '); };
+      paint(v.channel || '');
+      tx.appendChild(mEl);
       info.appendChild(tx); b.appendChild(info);
+      if (vid && (!v.title || !v.channel)) ytMeta(vid, m => {
+        if (!v.title) tEl.textContent = m.title;
+        const ch = v.channel || m.channel; paint(ch);
+        avEl.textContent = initial(ch || m.title || '?');
+        v._t = v.title || m.title; v._c = ch;
+      });
       if (ytId(v.url)) b.addEventListener('click', () => watch(v));
       sc.appendChild(b);
     });
@@ -2341,8 +2374,8 @@ function renderYoutube(box){
     wrap.appendChild(msg);
     box.appendChild(wrap);
     const wi = el('div','yt-wi');
-    wi.appendChild(el('b','',v.title || ''));
-    wi.appendChild(el('span','',`${v.channel || ''}${v.meta ? ' · ' + v.meta : ''}`));
+    wi.appendChild(el('b','',v.title || v._t || ''));
+    wi.appendChild(el('span','',[v.channel || v._c, v.meta].filter(Boolean).join(' · ')));
     box.appendChild(wi);
     pauseMusic();
     destroyVideo();
