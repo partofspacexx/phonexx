@@ -1101,7 +1101,7 @@ const NAMES = {
     /* 카카오톡: 이름별 설정. 앱 구조는 공통
        me      : 내 프로필 (이름 / 상태메시지)
        pay     : 페이머니 금액 (기본 0)
-       friends : 친구 목록 (ㄱㄴㄷ순 자동 정렬). img:'images/파일.jpg' 를 적으면 그 프로필 사진, 없으면 기본 프로필
+       friends : 친구 목록 (ㄱㄴㄷ순 자동 정렬). favorite:true 면 맨 위 즐겨찾기. img:'images/파일.jpg' 를 적으면 그 프로필 사진, 없으면 기본 프로필
        chats   : 메시지(채팅). 문자와 같은 방식: from 'them'/'me', unread:true 면 안 읽음, replies 는 키워드 답장 */
     kakao: {
       me: { name: '테스트', status: '테스트 프로필 설정' },
@@ -1186,12 +1186,36 @@ const NAMES = {
       { src: 'images/baedoae_photo09.jpg' },
       { src: 'images/baedoae_photo10.jpg' },
       { src: 'images/baedoae_photo11.jpg' },
-    ], alarms: [], couple: { answers: [
+    ], alarms: [ { time: '05:30', label: '알람', on: true }, { time: '05:35', label: '알람', on: true }, { time: '05:38', label: '알람', on: true }, { time: '05:40', label: '알람', on: true }, { time: '06:00', label: '알람', on: true }, { time: '06:10', label: '알람', on: true } ], couple: { answers: [
       '성격 좋을 것 같았지~~ 대뜸 반말한 건 맞는데 진짜 나보다 어릴 줄 알았어 ㅋㅋ',
       '같이 데이트하면 다 좋은데~~ 그래도 데이트 길게 갈 일은 잘 없으니까 여행 가면 좋겠다',
       '다현이가 눈이 진짜 예쁘잖아 ㅎㅎ',
       '' ] } },
-    kakao: { me: { name: '배도애', status: '' }, pay: 0, friends: [], chats: [] },
+    kakao: {
+      me: { name: '배도애', status: '' }, pay: 37280,
+      friends: [
+        { name: '채원이 아빠', favorite: true },
+        { name: '아버지' },
+        { name: '엄마', status: '언제나 화목하게~^^' },
+        { name: '공주님', status: '카톡 느려요.' },
+        { name: '메인 PD님', status: '휴가 중 😎' },
+        { name: '작가님' },
+        { name: '교무부장3 임장선', status: '사랑하는 우리 반~' },
+        { name: '교감쌤' },
+        { name: '영어2 최미선', status: '2학년 2반 화이팅!!' },
+        { name: '국어3 서희경' },
+        { name: '경제1 차태균', status: '1학년 7반❤️' },
+        { name: '이윤민', status: '꿈꾸는 세상…' },
+        { name: '석균안', status: '✈️' },
+        { name: '3-5 태율이' },
+        { name: '2-1 채미', status: '김경진 돈 갚아' },
+        { name: '3-3 소정이' },
+        { name: '1-5 주윤이', status: '치이카와~' },
+        { name: '정서나' },
+        { name: '권소헌', status: '11.6 개인전' }
+      ],
+      chats: []
+    },
     messages: []
   },
   // '서편화': { battery: 42, wallpaper: '#1a1a2e', text: '' },
@@ -1769,7 +1793,7 @@ function loadKakao(cfg){
   const k = cfg.kakao || {};
   kk.me = { name: (k.me && k.me.name) || userName, status: (k.me && k.me.status) || '', img: (k.me && k.me.img) || '' };
   kk.pay = Number.isFinite(k.pay) ? k.pay : 0;
-  kk.friends = (k.friends || []).map(f => ({ name: f.name, status: f.status || '', img: f.img || '' }));
+  kk.friends = (k.friends || []).map(f => ({ name: f.name, status: f.status || '', img: f.img || '', favorite: !!f.favorite }));
   kk.chats = (k.chats || []).map(t => ({
     name: t.name, replies: t.replies || [],
     msgs: t.msgs.map(m => ({ from: m.from, text: m.text, ts: parseAt(m.at), read: !m.unread }))
@@ -1797,14 +1821,18 @@ function renderKakaoFriends(){
   me.appendChild(tx);
   box.appendChild(me);
 
-  box.appendChild(el('div','k-sec','친구 ' + kk.friends.length));
-  sortKo(kk.friends).forEach(f => {
+  /* 즐겨찾기(favorite:true)는 맨 위 '즐겨찾기' 구역, 나머지는 '친구' 구역 (각각 ㄱㄴㄷ순) */
+  const addRows = list => sortKo(list).forEach(f => {
     const row = el('div','k-row k-fr');
     row.appendChild(kAv(f.name));
     row.appendChild(el('span','k-n', f.name));
     if (f.status) row.appendChild(el('span','k-st', f.status));
     box.appendChild(row);
   });
+  const favs = kk.friends.filter(f => f.favorite), rest = kk.friends.filter(f => !f.favorite);
+  if (favs.length){ box.appendChild(el('div','k-sec','즐겨찾기 ' + favs.length)); addRows(favs); }
+  box.appendChild(el('div','k-sec','친구 ' + rest.length));
+  addRows(rest);
 }
 
 /* ---- 메시지 목록 ---- */
