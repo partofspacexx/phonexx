@@ -1136,6 +1136,44 @@ const NAMES = {
       }
     ]
   },
+  '배도애': {
+    battery: 38,
+    /* 배경화면 이미지: 레포의 images 폴더에 올린 뒤 아래 경로 사용 (파일이 없으면 검정색) */
+    wallpaper: "url(images/baedoae_wall.jpg) center/cover, #000", text: '',
+    /* 전화번호부: number 를 적으면 상세 화면에 번호가 표시됨 / call 을 적지 않은 사람은 전화를 받지 않음
+       call 을 [[1번째],[다시 걸면],[또다시 걸면]] 처럼 적으면 걸 때마다 다음 대사 */
+    contacts: [
+      { name: '채원이 아빠', number: '', favorite: true,
+        call: [['배도애?', '또 왜 전화했어', '어 나도 보고 싶어'], ['오늘 왜 이러지 진짜', '나도 보고 싶다니까', '…', '보러 갈까?', '어디야?'], ['알았어 알았어', '가는 중이니까 조금만 기다려', '사랑해']] },
+      { name: '아버지', number: '',
+        call: ['그래 무슨 일이야 아들', '전해 들었다 누구 만난다면서', '다음에 집에 한번 데리고 와'] },
+      { name: '엄마', number: '',
+        call: ['응 아들 잘 지내고 있지?', '사위랑 싸우지는 않았고?', '벌써 사위는 무슨 엄마는 마음에 쏙 들더라', '그래 네가 다 져주고 그래 알았지?'] },
+      { name: '공주님', number: '',
+        call: ['여보세요? 오빠?', '이렇게 자주 전화할 거면 용돈 줘', '오빠 내 친구들이 오빠 소식 묻던데', '다현 오빠랑 사진 찍어서 보내주라'] },
+      { name: '교무부장3 임장선', number: '' },
+      { name: '교감쌤', number: '',
+        call: ['배도애 선생님?', '음… 학생들 사이에 얘기가 좀 있던데', '업무에 지장 안 가게만 해주세요'] },
+      { name: '영어2 최미선', number: '' },
+      { name: '국어3 서희경', number: '' },
+      { name: '경제1 차태균', number: '' },
+      { name: '이윤민', number: '',
+        call: ['야 네 소식 기사 났더라', '웃긴다 배도애 유명인 됐네', '다음에 술은 네가 사라'] },
+      { name: '석균안', number: '' },
+      { name: '3-5 태율이', number: '' },
+      { name: '2-1 채미', number: '' },
+      { name: '3-3 소정이', number: '' },
+      { name: '1-5 주윤이', number: '' },
+      { name: '정서나', number: '' },
+      { name: '권소헌', number: '',
+        call: ['어? 선배 웬일이에요', '안 그래도 소식 들었어요', '저 선배 커플 응원했어요', '결혼식 하면 초대 좀 해주세요'] }
+    ],
+    callLog: [],
+    camera: '',
+    apps: { todos: [], music: { url: '', title: '', artist: '', color: '#e0526b' }, searches: [], videos: [], photos: [], alarms: [], couple: { answers: ['', '', '', ''] } },
+    kakao: { me: { name: '배도애', status: '' }, pay: 0, friends: [], chats: [] },
+    messages: []
+  },
   // '서편화': { battery: 42, wallpaper: '#1a1a2e', text: '' },
 };
 const NOT_FOUND_MSG = '다시 확인해 주세요.';
@@ -1315,13 +1353,13 @@ function startCall(contact){
   let name, script, extra = '';
   if (contact){                                   // 전화번호부에서 건 전화
     callFromKeypad = false;
-    name = contact.name; script = contact.call;
+    name = contact.name; script = nextScript(contact);
   } else {                                        // 키패드에서 건 전화
     if (!digits) return;
     callFromKeypad = true;
     const found = contacts.find(c => c.number.replace(/\D/g,'') === digits);
     if (found){                                   // 저장된 번호를 직접 눌러도 그 사람에게 걸림
-      name = found.name; script = found.call;
+      name = found.name; script = nextScript(found);
     } else {
       const isNum = /^[0-9]+$/.test(digits);
       const valid = isNum && digits.length === CALL.numberLength;
@@ -1341,6 +1379,11 @@ function runCall(name, script){
   $('callLine').textContent = '';
   $('call').classList.remove('hidden');
 
+  if (!script){                                   // 전화를 받지 않음
+    later(() => { $('callSub').textContent = '응답 없음'; }, CALL.ringMs + 2500);
+    later(finishCall, CALL.ringMs + 3500);
+    return;
+  }
   later(() => { $('callSub').textContent = '통화 중'; }, CALL.ringMs);
   script.forEach((txt, i) => later(() => { $('callLine').textContent = txt; }, CALL.ringMs + i * CALL.lineMs));
   later(finishCall, CALL.ringMs + script.length * CALL.lineMs + 600);   // 마지막 대사 후 종료
@@ -1524,10 +1567,24 @@ function groupKey(name){
 }
 const byName = (a, b) => a.name.localeCompare(b.name, 'ko');
 
+/* 통화 대사 정리: call 에 대사 배열 하나 → 매번 같은 대사
+   [[1번째 통화 대사], [다시 걸면], [또다시 걸면]] → 걸 때마다 다음 대사 (마지막은 계속 반복)
+   call 을 비우면 전화를 걸어도 받지 않음 */
+function callAttempts(call){
+  if (!call || !call.length) return [];
+  return Array.isArray(call[0]) ? call : [call];
+}
+function nextScript(c){
+  if (!c.calls.length) return null;                       // 안 받음
+  const s = c.calls[Math.min(c.tries, c.calls.length - 1)];
+  c.tries++;
+  return s;
+}
+
 function loadContacts(cfg){
   contacts = (cfg.contacts || []).map(c => ({
     name: c.name, number: c.number || '', favorite: !!c.favorite,
-    call: (c.call && c.call.length) ? c.call : ['여보세요?'],
+    calls: callAttempts(c.call), tries: 0,
     replies: c.replies || []
   }));
   backToContactList();
