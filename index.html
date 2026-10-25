@@ -1072,6 +1072,7 @@ button.sw{cursor:pointer}
    1. 이름별 설정  ← 여기에 입력 가능한 이름을 추가하세요
    ====================================================
    battery   : 배터리 잔량 (0~100)
+   timedTexts: [{ afterSec:180, name:'발신자', msgs:['...'] }]  ← 로그인 후 N초 뒤 안 읽은 문자가 도착 (알림 배너도 뜸)
    wallpaper : 홈화면 배경 (CSS background 값. 색 '#000' 또는 이미지 "url(wall.jpg) center/cover")
    text      : 최적화 내용 (나중에 추가)
    여기에 없는 이름은 잠금화면에서 넘어가지 않습니다. */
@@ -1469,6 +1470,228 @@ const NAMES = {
       }
     ]
   },
+  '공찬민': {
+    battery: 17,
+    wallpaper: "url(images/chanmin_wall.jpg) center/cover, #000", text: '',
+    contacts: [
+      { name: '정희', number: '', favorite: true,
+        afterCall: [
+          { count: 1, msgs: ['자기야', '도시락 고마워요'] },
+          { count: 2, msgs: ['들어갈 거니까 그만'] },
+        ],   // N번째 통화가 끊기면 문자 도착
+        call: [['여보세요?', '자기야 지금 일하고 있어요', '기다리지 말고 자요'], ['왜 그래요?', '…', '공찬민?', '금방 끝나요'], null] },
+      { name: '안철우', number: '',
+        call: ['지금 거신 번호는 없는 번호입니다. 다시 확인하시고 걸어주십시오.'] },
+      { name: '금사교회 이경분 목사님', number: '',
+        call: [['찬민 씨!', '찬민 씨, 잘 지내고 계신 건가요?', '교회도 요즘 안 나오시고…', '…', '무슨 일 있으십니까?'], ['도움이 필요하면 말씀하세요', '기도하고 있겠습니다']] },
+      { name: '금사교회 최지나 집사님', number: '',
+        call: [['선생님?', '오랜만에 연락 주셨네요', '저어… 요새 말이 도는 게', '선생님이…', '아니에요'], ['선생님 무슨 일 있으신가요?', '교회는 언제 나오실 거예요?', '…', '선생님을 위해 기도하겠습니다'], ['저… 선생님', '하나님을 멀리하시는 거라면', '이제 전화 안 해주셨으면 합니다'], null] }
+    ],
+    callLog: [],
+    logMessages: false,
+    camera: '',
+    apps: {
+      todos: ['장 보기', '이불 빨기'],
+      music: { url: 'https://youtu.be/IR-6KE8C4VQ?si=9xuqMeJhJVspP2jd', title: '', artist: '', color: '#e0526b' },
+      searches: ['마늘장아찌 담그기', '베드로전서 4장 8절', '마음이 편안해지는 찬송', '강아지 키우기', '강아지 사료 투정'],
+      videos: [
+        { url: 'https://youtu.be/GYMLMj-SibU?si=5PJ5r0puEfLvd4l-', meta: '', progress: 0.5 },
+        { url: 'https://youtu.be/hINZGpJ1Eho?si=m-gis5AZaylUF8xd', meta: '', progress: 1 },
+        { url: 'https://youtu.be/jqIf7dTu7g0?si=kDE_y4q97pTngeyy', meta: '', progress: 0.2 },
+      ],
+      photos: [],
+      alarms: [ { time: '07:30', label: '알람', on: false }, { time: '13:30', label: '알람', on: true }, { time: '19:30', label: '알람', on: true } ],
+      couple: { answers: ['별로 안 좋았습니다. 그래도 예뻤던 것으로 기억합니다.', '', '귀엽습니다.', ''] },
+    },
+    kakao: {
+      me: { name: '공찬민', status: '' }, pay: 0,
+      friends: [
+        { name: '정희', favorite: true },
+        { name: '금사교회 이경분 목사님', status: '하나님 안에 거하라~^^' },
+        { name: '금사교회 최지나 집사님', status: '고등부.^^' },
+        { name: '이요셉', status: '주의 사랑' },
+        { name: '최미현', status: '11.5 성경 캠프!!' },
+        { name: '임구희' }
+      ],
+      chats: [
+        { name: '금사교회 단체 채팅방', count: 11,
+          /* 이 방에서 처음 무언가 보내면 한 번만 도착 */
+          firstReply: [
+            { who: '임구희', text: '쌤 오랜만이네요' },
+            { who: '이요셉', text: '? 뭐야' },
+          ],
+          msgs: [
+            { from: 'them', who: '금사교회 이경분 목사님', text: '하나님 안에 거하는 하루 되시길 바랍니다.', at: '9/16 11:10', unread: true },
+            { from: 'them', who: '금사교회 최지나 집사님', text: '감사합니다~^^', at: '9/16 11:11', unread: true },
+            { from: 'them', who: '이요셉', text: '찬민쌤 요새 왜 안 나오세요?', at: '9/27 21:20', unread: true },
+            { from: 'them', who: '최미현', text: '쌤 보고 싶어요ㅠㅠ', at: '9/27 21:21', unread: true },
+            { from: 'them', who: '임구희', text: '쌤 왜 안 나오는지 앎', at: '9/27 21:29', unread: true },
+            { from: 'them', who: '최미현', text: '왜??', at: '9/27 21:31', unread: true },
+            { from: 'them', who: '금사교회 최지나 집사님', text: '얘들아', at: '9/27 21:31', unread: true }
+          ]
+        },
+        { name: '최미현',
+          msgs: [
+            { from: 'them', who: '최미현', text: '합창단 반주 연습 도와주셔서 감사합니다 쌤!!', at: '5/16 20:53' },
+            { from: 'me', text: '그래.', at: '5/16 20:54' },
+            { from: 'them', who: '최미현', text: '쌤 교회에서 쫓겨난 거란 소문 진짜예요?', at: '9/29 1:26', unread: true }
+          ]
+        }
+      ]
+    },
+    /* 핸드폰을 연 지 3분(180초) 뒤 저장되지 않은 번호로 문자 도착 */
+    timedTexts: [
+      { afterSec: 180, name: '저장되지 않은 번호', newThread: true,
+        msgs: ['네가 그 가이드 맞잖아', '네 파트너한테 조심하라고 전해라'] },
+    ],
+    messages: [
+      { name: '안철우',
+        msgs: [
+          { from: 'them', text: '이제 이쪽으로 연락 주시면 됩니다.', at: '3/7 16:11' },
+          { from: 'me', text: '예.', at: '3/7 16:12' },
+          { from: 'them', text: '되겠나요?', at: '3/29 9:21' },
+          { from: 'me', text: '주일ㅇ는 안 됩니다.', at: '3/29 9:22' },
+          { from: 'them', text: '부탁드리겠습니다, 내일.', at: '4/4 12:10' },
+          { from: 'me', text: '예배에 오라고 히ㅢ주십시오.', at: '4/4 12:11' },
+          { from: 'them', text: '저번에 그분입니다.', at: '4/15 11:43' },
+          { from: 'me', text: '우선 오라고 해주세요.', at: '4/15 11:44' },
+          { from: 'me', text: '다음 주일에 닌오리ㅡ고 해주십시오.', at: '4/15 11:45' },
+          { from: 'them', text: '감사하다고 전해 달라셨습니다.', at: '4/20 16:22' },
+          { from: 'me', text: '아닙니다.', at: '4/20 16:23' },
+          { from: 'them', text: '부탁하겠습니다.', at: '5/9 14:07' },
+          { from: 'me', text: '예.', at: '5/9 14:08' },
+          { from: 'them', text: '故안철우 님께서 6월 18일 소천하셨기에 삼가 알려드립니다.', at: '6/18 21:31' }
+        ]
+      },
+      { name: '정희',
+        first: '오늘 늦을 수도 있어요',
+        replies: [
+          { keys: ['자기야'], text: '네 자기야' },
+          { keys: ['사랑해'], text: '저도 사랑해요' },
+        ],
+        fallback: ['오늘 늦는다니까요', ['먼저 자도 돼요', '생각해 보니 먼저 자진 마세요'], '공찬민 그만', '그만 불안해하라고 했지'],
+        msgs: [
+          { from: 'me', text: '어디식니까.', at: '7/1 18:32' },
+          { from: 'me', text: '핸드폰을 놓그 나가신 겁니까.', at: '7/1 18:33' },
+          { from: 'me', text: '정ㅅ희님', at: '7/1 18:34' },
+          { from: 'me', text: '걱정돼시ㅣ 그러니 연락 쥬ㅔ요', at: '7/1 18:35' },
+          { from: 'me', text: '정희님', at: '7/1 18:36' },
+          { from: 'me', text: '이건 아닙니다, 정희님 그릫게 나가서 안 들어오시면', at: '7/3 20:11' },
+          { from: 'me', text: '저는 걱정이 됩니다', at: '7/3 20:12' },
+          { from: 'me', text: '정희님', at: '7/3 20:13' },
+          { from: 'them', text: 'ㅇㄷ', at: '7/5 13:01' },
+          { from: 'me', text: '정흐님', at: '7/5 13:02' },
+          { from: 'me', text: '예배를 드렿늡니다', at: '7/5 13:03' },
+          { from: 'me', text: '지금 가겟습니다', at: '7/5 13:04' },
+          { from: 'them', text: '안 와도 돼요', at: '7/5 13:05' },
+          { from: 'me', text: '가겠습니다', at: '7/5 13:06' },
+          { from: 'me', text: '오늘 몇 시메 들어오십니까?', at: '7/15 14:39' },
+          { from: 'them', text: '5시요', at: '7/15 14:40' },
+          { from: 'me', text: '네 같이 밥 먹어요.', at: '7/15 14:41' },
+          { from: 'them', text: '뭐 먹을 건데?', at: '7/15 14:42' },
+          { from: 'me', text: '고기', at: '7/15 14:43' },
+          { from: 'them', text: '알았어요 나와요', at: '7/15 14:44' },
+          { from: 'me', text: '저도 운ㅇ건 잘못했지만', at: '7/21 19:11' },
+          { from: 'me', text: '정희님', at: '7/21 19:12' },
+          { from: 'me', text: '언제들 어오실 겁니까?', at: '7/21 19:13' },
+          { from: 'me', text: '벌써 이틀째예요', at: '7/21 19:14' },
+          { from: 'me', text: '정ㅎ딘ㅁ그렇게 나가시면 안 됩니다', at: '7/21 19:15' },
+          { from: 'them', text: '어쩌라고요?', at: '7/21 19:16' },
+          { from: 'me', text: '들어오싀요', at: '7/21 19:17' },
+          { from: 'me', text: '제가 나가겠슥니다', at: '7/21 19:18' },
+          { from: 'them', text: '싫어요', at: '7/21 19:19' },
+          { from: 'me', text: '언제 들어오십니까?', at: '8/11 11:36' },
+          { from: 'them', text: '오늘 늦어요', at: '8/11 11:37' },
+          { from: 'me', text: '네', at: '8/11 11:38' },
+          { from: 'them', text: '오늘 늦어요', at: '8/20 19:17' },
+          { from: 'them', text: '먼저 주무세요', at: '8/20 19:18' },
+          { from: 'me', text: '네', at: '8/20 19:19' },
+          { from: 'me', text: '카드가ㅇ안 되는데', at: '8/21 16:34' },
+          { from: 'me', text: '어떻게하나요?', at: '8/21 16:35' },
+          { from: 'me', text: 'ㅂ카드가 안 돼요', at: '8/21 16:36' },
+          { from: 'them', text: '다시 해보세요', at: '8/21 16:37' },
+          { from: 'me', text: '됩니다', at: '8/21 16:38' },
+          { from: 'me', text: '오늘 늦으시니요?', at: '8/21 16:39' },
+          { from: 'them', text: '일찍 갈게요', at: '8/21 16:40' },
+          { from: 'them', text: '오늘 저녁 나가서 먹어요', at: '8/25 11:10' },
+          { from: 'me', text: '좋습니다', at: '8/25 11:11' },
+          { from: 'me', text: '여호와는 여호와는 나의 목자시니 내게 부족함이 없으리로다', at: '8/25 16:34' },
+          { from: 'me', text: '조심히 들어오세요', at: '8/25 16:35' },
+          { from: 'me', text: '엊ㆍㄴ제 오시나요?', at: '8/25 20:46' },
+          { from: 'them', text: '오늘 안 들어가요', at: '8/25 20:47' },
+          { from: 'me', text: '정희님', at: '8/25 20:48' },
+          { from: 'me', text: '정ㅅㅈ님', at: '8/25 20:49' },
+          { from: 'me', text: '정희님 조심히 들어오세요', at: '9/9 16:26' },
+          { from: 'them', text: 'ㅇㅋ', at: '9/9 16:27' },
+          { from: 'them', text: '뭐 해요?', at: '9/13 10:34' },
+          { from: 'me', text: '집ㅇ네 있습니다', at: '9/13 10:35' },
+          { from: 'them', text: 'ㅇㅋ', at: '9/13 10:36' },
+          { from: 'them', text: '일찍 갈게요', at: '9/13 10:37' },
+          { from: 'me', text: '네', at: '9/13 10:38' },
+          { from: 'me', text: '정희님', at: '9/16 22:34' },
+          { from: 'me', text: 'ㅈㆍㅇ희님 뭐 하시나요', at: '9/16 22:35' },
+          { from: 'me', text: '오늘늦스시나요', at: '9/16 22:36' },
+          { from: 'me', text: '왜 안 오십니까', at: '9/16 22:37' },
+          { from: 'me', text: '오늘 ㄱ늑ㅈ는다는 말은 없었는데요', at: '9/16 22:38' },
+          { from: 'me', text: '정희님', at: '9/16 22:39' },
+          { from: 'me', text: '정희닛ㅇ 전화도 안 받으시네요', at: '9/16 22:40' },
+          { from: 'me', text: '괜찮으신 거 믽습니까', at: '9/16 22:41' },
+          { from: 'me', text: '걱정이죄어서요', at: '9/16 22:42' },
+          { from: 'me', text: '정희 님', at: '9/16 22:43' },
+          { from: 'them', text: '쏘리 일했어요', at: '9/16 22:44' },
+          { from: 'them', text: '지금 감', at: '9/16 22:45' },
+          { from: 'me', text: '네', at: '9/16 22:46' },
+          { from: 'me', text: '생일 축하합니다.', at: '10/4 14:31' },
+          { from: 'them', text: '반찬이 너무 짜요', at: '10/7 13:34' },
+          { from: 'me', text: '아', at: '10/7 13:35' },
+          { from: 'me', text: '설탕이랑 소금을 헷갈렸어요', at: '10/7 13:36' },
+          { from: 'me', text: '드시지 말고 버리세요', at: '10/7 13:37' },
+          { from: 'them', text: 'ㅇㅋ', at: '10/7 13:38' },
+          { from: 'me', text: '안 오시나요?', at: '10/17 23:30' },
+          { from: 'them', text: '감', at: '10/17 23:31' },
+          { from: 'me', text: '네', at: '10/17 23:32' }
+        ]
+      },
+      { name: '금사교회 이경분 목사님',
+        fallback: ['찬민 씨, 교회엔 언제든 돌아와도 됩니다.', '다음 예배에선 얼굴 봤으면 좋겠습니다.', '기도하겠습니다.'],
+        msgs: [
+          { from: 'them', text: '여호와는 여호와는 나의 목자시니 내게 부족함이 없으리로다', at: '8/25 16:13' },
+          { from: 'them', text: '찬민 씨, 늘 일이 잘 풀리길 바랍니다.', at: '8/25 16:14' },
+          { from: 'me', text: '감ㅅㅏ합니다.', at: '8/25 16:15' },
+          { from: 'them', text: '오늘 교회에서 안 보이시더라고요. 무슨 일 있으신가요?', at: '9/13 19:13' },
+          { from: 'me', text: '아닙니다.', at: '9/13 19:14' }
+        ]
+      },
+      { name: '금사교회 최지나 집사님',
+        callRule: { min: 3, text: '선생님, 죄송합니다.' },        // 이 분께 전화를 3번 이상 걸었으면 이 답장
+        fallback: ['선생님 괜찮으신 거죠?', '많이 기도하고 있습니다.', '선생님이 늘 마음 평안하시기를…'],
+        msgs: [
+          { from: 'them', text: '오늘 반주 정말 은혜되었습니다~^^', at: '4/19 16:32' },
+          { from: 'me', text: '감사합니다.', at: '4/20 10:43' },
+          { from: 'them', text: '조심히 다녀오세요.. 기도하겠습니다.', at: '6/19 10:16' },
+          { from: 'me', text: '감사합니다.', at: '6/19 10:17' },
+          { from: 'them', text: '요새 무슨 일 있으신가요? 갑자기 안 나오시네요…', at: '10/4 18:26' },
+          { from: 'me', text: '죄송합니다. 사저ㅇㄱ이 있습니다.', at: '10/5 11:34' }
+        ]
+      },
+      { name: '이즘 카드',
+        msgs: [
+          { from: 'them', text: '[Web발신][결제 완료] 플라워박스에서 42,000원 결제가 완료되었습니다.', at: '10/3 15:32' }
+        ]
+      },
+      { name: '차단된 번호',
+        msgs: [
+          { from: 'them', text: '너 서정희 알지', at: '9/2 22:16' },
+          { from: 'them', text: '네가 그 가이드지', at: '9/2 22:17' }
+        ]
+      },
+      { name: '차단된 번호',
+        msgs: [
+          { from: 'them', text: '못 찾을 것 같지 ㅋㅋㅋㅋ', at: '9/6 12:19' }
+        ]
+      }
+    ]
+  },
   // '서편화': { battery: 42, wallpaper: '#1a1a2e', text: '' },
 };
 const NOT_FOUND_MSG = '다시 확인해 주세요.';
@@ -1564,6 +1787,21 @@ function submit(){
   }, LOADING_MS);
 }
 
+let timedHandles = [];
+function startTimedTexts(cfg){
+  timedHandles.forEach(clearTimeout); timedHandles = [];
+  (cfg.timedTexts || []).forEach(x => timedHandles.push(setTimeout(() => {
+    let t = threads.find(y => y.name === x.name && !y.timed);
+    if (!t || x.newThread){ t = { name: x.name, replies: [], msgs: [], timed: true }; threads.push(t); }
+    x.msgs.forEach((text, i) => {
+      t.msgs.push({ from: 'them', text, ts: new Date(), read: false });
+      setTimeout(() => notify('sms', x.name, text, () => { show('msgApp'); openThread(threads.indexOf(t)); }), i * 1200);
+    });
+    updateBadge(); renderLog();
+    if ($('m-list').classList.contains('on')) renderList();
+  }, x.afterSec * 1000)));
+}
+
 function openHome(){
   const cfg = NAMES[userName];
   $('home').style.background = cfg.wallpaper;
@@ -1576,6 +1814,7 @@ function openHome(){
   loadLog(cfg);
   loadKakao(cfg);
   loadCamera(cfg);
+  startTimedTexts(cfg);
   $('status').classList.remove('hidden');
   show('home');
 }
@@ -1686,14 +1925,17 @@ function runCall(name, script, contact){
   later(finishCall, CALL.ringMs + script.length * CALL.lineMs + 600);   // 마지막 대사 후 종료
 }
 
-/* afterCall: { count: N, msgs: [...] } → 이 사람에게 N번째 건 전화가 끊기면 그 시각으로 문자가 도착 */
+/* afterCall: { count: N, msgs: [...] } (여러 개면 배열) → 이 사람에게 N번째 건 전화가 끊기면 그 시각으로 문자가 도착 */
 function deliverAfterCall(c){
-  if (!c || !c.after || c.afterDone || c.tries !== c.after.count) return;
-  c.afterDone = true;
+  if (!c || !c.after) return;
+  const a = (Array.isArray(c.after) ? c.after : [c.after]).find(x => x.count === c.tries);   // 이번이 N번째 통화인 규칙
+  c.doneAfter = c.doneAfter || {};
+  if (!a || c.doneAfter[a.count]) return;
+  c.doneAfter[a.count] = true;
   let t = threads.find(x => x.name === c.name);
   if (!t){ t = { name: c.name, replies: c.replies || [], msgs: [] }; threads.push(t); }
   const now = new Date();
-  c.after.msgs.forEach((text, i) => {
+  a.msgs.forEach((text, i) => {
     t.msgs.push({ from: 'them', text, ts: now, read: false });
     setTimeout(() => notify('sms', t.name, text, () => { closeCall(); show('msgApp'); openThread(threads.indexOf(t)); }), 600 + i * 1200);
   });
@@ -1725,11 +1967,23 @@ $('endBtn').addEventListener('click', () => {      // 통화 중 직접 끊기
    ==================================================== */
 /* 키워드 답장: replies 에서 맞는 첫 규칙. 없으면 fallback(아무거나 보냈을 때) 사용.
    text/fallback 이 배열이면 그중 무작위 */
-function pickReply(replies, fallback, flat){
-  const rule = (replies || []).find(r => r.keys.some(k => flat.includes(k.replace(/\s/g,''))));
-  const v = rule ? rule.text : fallback;
+/* 답장 결정 (순서): ① callRule(전화를 N번 이상 걸었으면) ② 키워드 ③ first(처음 보낸 메시지) ④ fallback(그 외)
+   값이 배열이면 그중 무작위 / 뽑힌 항목이 배열이면 그 안의 메시지들이 연달아 옴
+   → 항상 '메시지 배열' 또는 null 로 돌려줌 */
+function pickReply(t, flat){
+  t.sentLive = (t.sentLive || 0) + 1;
+  let v;
+  const c = contacts.find(x => x.name === t.name);
+  if (t.callRule && c && c.tries >= t.callRule.min) v = t.callRule.text;
+  else {
+    const rule = (t.replies || []).find(r => r.keys.some(k => flat.includes(k.replace(/\s/g,''))));
+    if (rule) v = rule.text;
+    else if (t.sentLive === 1 && t.first !== undefined) v = t.first;
+    else v = t.fallback;
+  }
+  if (Array.isArray(v)) v = v[Math.floor(Math.random() * v.length)];
   if (v === undefined || v === null || v === '') return null;
-  return Array.isArray(v) ? v[Math.floor(Math.random() * v.length)] : v;
+  return Array.isArray(v) ? v : [v];
 }
 /* ---- 알림 배너 (문자·카톡이 도착했는데 그 대화를 보고 있지 않을 때) ---- */
 let notifTimer = null, notifOpen = null;
@@ -1765,7 +2019,7 @@ const listText = d => `${d.getMonth()+1}/${d.getDate()}`;
 function loadThreads(cfg){
   threads = (cfg.messages || []).map(t => ({
     name: t.name,
-    replies: t.replies || [], fallback: t.fallback,
+    replies: t.replies || [], fallback: t.fallback, first: t.first, callRule: t.callRule,
     msgs: t.msgs.map(m => ({ from: m.from, text: m.text, ts: parseAt(m.at), read: !m.unread }))
   }));
   openIdx = -1; pending = 0;
@@ -1867,11 +2121,11 @@ function sendMsg(){
   updateSend();
 
   const flat = text.replace(/\s/g,'');
-  const replyText = pickReply(t.replies, t.fallback, flat);
-  if (replyText) pending++;
+  const seq = pickReply(t, flat) || [];
+  pending += seq.length;
   renderThread();
 
-  if (replyText) setTimeout(() => {
+  seq.forEach((replyText, n) => setTimeout(() => {
     pending = Math.max(0, pending - 1);
     const viewing = openIdx === threads.indexOf(t) &&
                     !$('msgApp').classList.contains('hidden') && $('m-thread').classList.contains('on');
@@ -1880,7 +2134,7 @@ function sendMsg(){
     renderLog();
     if (!viewing) notify('sms', t.name, replyText, () => { show('msgApp'); openThread(threads.indexOf(t)); });
     if (viewing) renderThread(); else if ($('m-list').classList.contains('on')) renderList();
-  }, REPLY_MS);
+  }, REPLY_MS + n * 1300));
 }
 
 $('openMsg').addEventListener('click', () => {
@@ -2101,7 +2355,7 @@ function loadKakao(cfg){
   kk.pay = Number.isFinite(k.pay) ? k.pay : 0;
   kk.friends = (k.friends || []).map(f => ({ name: f.name, status: f.status || '', img: f.img || '', favorite: !!f.favorite }));
   kk.chats = (k.chats || []).map(t => ({
-    name: t.name, replies: t.replies || [], fallback: t.fallback, count: t.count || 0, firstReply: t.firstReply || null, showReaders: t.showReaders !== false,
+    name: t.name, replies: t.replies || [], fallback: t.fallback, first: t.first, count: t.count || 0, firstReply: t.firstReply || null, showReaders: t.showReaders !== false,
     msgs: t.msgs.map(m => ({ from: m.from, who: m.who || '', text: m.text, ts: parseAt(m.at), read: !m.unread }))
   }));
   kk.openIdx = -1; kk.pending = 0;
@@ -2248,7 +2502,7 @@ function sendK(){
   /* 답장 목록: firstReply(이 방에서 처음 보낼 때 한 번만 오는 메시지들) 또는 키워드 답장 */
   let incoming = [];
   if (t.firstReply && !t.firstDone){ t.firstDone = true; incoming = t.firstReply.map(x => ({ who: x.who || '', text: x.text, unreadBy: x.unreadBy || 0 })); }
-  else { const r = pickReply(t.replies, t.fallback, flat); if (r) incoming = [{ who: '', text: r }]; }
+  else { const r = pickReply(t, flat); if (r) incoming = r.map(x => ({ who: '', text: x })); }
   kk.pending += incoming.length;                 // 남은 답장 수만큼 '입력 중' 표시
   renderKRoom();
 
