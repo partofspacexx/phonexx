@@ -107,6 +107,20 @@ svg{display:block}
 #loading p{font-size:16px;color:var(--sub)}
 
 /* ====== 최상단 상태바 (홈/앱 공통) ====== */
+#notif{position:absolute;left:10px;right:10px;top:10px;z-index:200;padding:11px 14px;border-radius:22px;
+  background:rgba(244,244,246,.96);color:#111;display:flex;gap:11px;align-items:center;cursor:pointer;
+  box-shadow:0 8px 28px rgba(0,0,0,.35);transform:translateY(-140%);opacity:0;pointer-events:none;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .25s}
+#notif.on{transform:translateY(0);opacity:1;pointer-events:auto}
+#notif .ni{width:38px;height:38px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center}
+#notif .ni svg{width:24px;height:24px;fill:#fff}
+#notif .ni.sms{background:linear-gradient(#5be26f,#1fb83b)}
+#notif .ni.kakao{background:#fee500}
+#notif .ni.kakao svg{fill:#3b1e1e}
+#notif .nb{flex:1;min-width:0}
+#notif .nt{display:flex;justify-content:space-between;font-size:12px;color:#6d6d72}
+#notif .nn{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#notif .nx{font-size:14px;line-height:1.3;color:#222;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word}
 #status{
   position:absolute;top:0;left:0;right:0;z-index:30;pointer-events:none;
   display:flex;justify-content:space-between;align-items:center;
@@ -432,6 +446,7 @@ svg{display:block}
 .k-room.on{display:flex}
 .k-rhead{display:flex;align-items:center;gap:6px;padding:6px 18px 10px 12px;flex:none}
 .k-rhead>button{background:none;border:0;font-size:30px;line-height:1;color:#111;cursor:pointer;padding:0 8px 4px 0}
+.k-cnt{margin-left:6px;font-size:13px;font-weight:400;color:#9a9a9a}
 .k-rname{font-size:18px;font-weight:700;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .k-rbody{flex:1;overflow-y:auto;padding:4px 12px 12px;scrollbar-width:none}
 .k-rbody::-webkit-scrollbar{display:none}
@@ -693,6 +708,9 @@ button.sw{cursor:pointer}
 ==========
 아래로 상태바 코딩 (홈화면과 앱 화면에서 공통으로 보임)
 -->
+<!-- 문자·카톡 알림 배너 -->
+<div id="notif" aria-live="polite"></div>
+
 <div id="status" class="hidden">
   <span id="sbTime">0:00</span>
   <span class="sb-right">
@@ -1236,7 +1254,103 @@ const NAMES = {
         { name: '정서나' },
         { name: '권소헌', status: '11.6 개인전' }
       ],
-      chats: []
+      chats: [
+        { name: '채원이 아빠',
+          msgs: [
+            { from: 'them', text: '오늘 재밌었어', at: '8/15 21:23' },
+            { from: 'them', text: '조심히 들어가', at: '8/15 21:24' },
+            { from: 'me', text: '웅 다현이도 ㅎㅎ', at: '8/15 21:24' },
+            { from: 'me', text: '들어가서 연락 주라', at: '8/15 21:24' },
+            { from: 'them', text: '이제 들어왔다', at: '8/15 22:06' },
+            { from: 'me', text: '씻구 잘 거야?', at: '8/15 22:07' },
+            { from: 'them', text: '그래야지 ㅋㅋ', at: '8/15 22:13' },
+            { from: 'me', text: '알아써 나도 도착 ㅎㅎ', at: '8/15 22:36' },
+            { from: 'me', text: '다현아 오늘 뭐 해?', at: '8/17 09:22' },
+            { from: 'them', text: '어 도애야', at: '8/17 09:34' },
+            { from: 'them', text: '별거 없어 ㅋㅋ', at: '8/17 09:35' },
+            { from: 'me', text: '웅 그럼 얼굴이나 볼까 해서 ㅎㅎ', at: '8/17 09:36' },
+            { from: 'them', text: '어 그럼 카페 갈까?', at: '8/17 09:36' },
+            { from: 'me', text: '전에 거기? 좋아 ㅎㅎㅎㅎ', at: '8/17 09:39' },
+            { from: 'me', text: '10시에 나올 수 있어?', at: '8/17 09:39' },
+            { from: 'them', text: '오키~~', at: '8/17 09:40' },
+            { from: 'me', text: 'https://youtube.com/shorts/K3LJbMkKszg?si=55PXghCURXxznMzD', at: '8/20 22:30' },
+            { from: 'me', text: '다현이 햄스터 ㅎㅎ', at: '8/20 22:30' },
+            { from: 'them', text: '무슨 소리야 또 도애야…', at: '8/20 22:31' },
+            { from: 'me', text: '귀엽지 ㅎㅎㅎ', at: '8/20 22:32' },
+            { from: 'them', text: '귀엽긴 한데…', at: '8/20 22:33' },
+            { from: 'me', text: '다현이 점심에 잠깐 시간 돼?', at: '8/25 10:16' },
+            { from: 'them', text: '엉? 응 되지 오늘 널널해', at: '8/25 10:31' },
+            { from: 'me', text: '알았어 점심 같이 먹자 ㅎㅎ', at: '8/25 10:32' },
+            { from: 'them', text: '오늘 쉬어?', at: '8/25 10:32' },
+            { from: 'me', text: '아닝 저녁에 외부 강의', at: '8/25 10:33' },
+            { from: 'me', text: '오늘 그냥 한 말 아니야~~ㅎㅎ', at: '8/27 18:09' },
+            { from: 'them', text: '응 나도 알지 도애야', at: '8/27 18:10' },
+            { from: 'them', text: '내일 얼굴 볼까?', at: '8/27 18:10' },
+            { from: 'me', text: '퇴근하구 데리러 갈게', at: '8/27 18:10' },
+            { from: 'me', text: '미리 잘 자 ㅎㅎ', at: '8/27 18:11' },
+            { from: 'them', text: '조심히 들어 가', at: '8/29 13:01' },
+            { from: 'me', text: '알아써 ㅎㅎ', at: '8/29 13:02' },
+            { from: 'me', text: '자기야', at: '8/29 13:30' },
+            { from: 'them', text: '왜 불러 남편', at: '8/29 13:30' },
+            { from: 'me', text: '집 도착했다구 ㅎㅎ', at: '8/29 13:30' },
+            { from: 'me', text: '다현아~~', at: '8/29 13:30' },
+            { from: 'them', text: '응', at: '8/29 13:30' },
+            { from: 'me', text: '좋아해 ㅎㅎ', at: '8/29 13:31' },
+            { from: 'them', text: '나도 너 좋아', at: '8/29 13:31' },
+            { from: 'them', text: '좋아해 도애야 ㅋㅋ', at: '8/29 13:31' },
+            { from: 'them', text: '그냥 전화해도 돼', at: '9/2 18:01' },
+            { from: 'me', text: '가는 중이야', at: '10/24 16:36' },
+            { from: 'them', text: '천천히 와', at: '10/24 16:36' },
+            { from: 'me', text: '통화해도 돼?', at: '10/24 16:38' },
+            { from: 'them', text: '어엉', at: '10/24 16:38' },
+            { from: 'them', text: '내일 보자 도애야', at: '10/25 14:21' },
+            { from: 'me', text: '응응 ㅎㅎ', at: '10/25 14:22' },
+            { from: 'me', text: '밖에서 데이트 오랜만인데 ㅎㅎ', at: '10/25 14:23' },
+            { from: 'them', text: '누가 알아보면 어떡할래 ㅋㅋ', at: '10/25 14:31' },
+            { from: 'me', text: '헐… 사인지 미리 준비해야지', at: '10/25 14:32' },
+            { from: 'them', text: 'ㅋㅋㅋㅋㅋㅋ 그럼 난 펜', at: '10/25 14:35', unread: true }
+          ]
+        },
+        { name: '가족', count: 4,
+          msgs: [
+            { from: 'them', who: '엄마', text: '도애야~ 추석에 오니?', at: '9/20 19:22' },
+            { from: 'me', text: '네 ㅎㅎ 가야죠!', at: '9/20 19:23' },
+            { from: 'them', who: '엄마', text: '그래~~', at: '9/20 19:23' },
+            { from: 'them', who: '공주님', text: '다현 오빠 데리고 와', at: '9/20 19:23' },
+            { from: 'them', who: '아버지', text: '지애. 말을 조심.', at: '9/20 19:25' },
+            { from: 'them', who: '아버지', text: '사랑하는 우리 아들.딸.여보. 오늘도. 힘찬 하루.', at: '10/6 08:34' },
+            { from: 'me', text: '힘차게 출근 취소 어때요~~', at: '10/6 08:34' },
+            { from: 'them', who: '아버지', text: '그건. 곤란^^', at: '10/6 08:39' },
+            { from: 'them', who: '공주님', text: 'ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ', at: '10/6 08:40' },
+            { from: 'them', who: '엄마', text: '도애는 계속 통화 중이네~~', at: '10/24 17:53' },
+            { from: 'me', text: '죄송해요 ㅎㅎ 다현이랑', at: '10/24 18:36' },
+            { from: 'them', who: '엄마', text: '괜찮다…^^', at: '10/24 18:38' },
+            { from: 'them', who: '공주님', text: '비 온대요 우산 챙겨요!!', at: '10/25 10:36' },
+            { from: 'them', who: '아버지', text: '지애. 고맙다.^^', at: '10/25 10:38' },
+            { from: 'them', who: '엄마', text: '오늘도 힘찬 하루~~', at: '10/25 10:43', unread: true }
+          ]
+        },
+        { name: '학교', count: 7,
+          /* 이 방에서 처음 무언가 보내면 한 번만 도착 */
+          firstReply: [
+            { who: '국어3 서희경', text: '도애쌤?' },
+            { who: '교무부장3 임장선', text: '단톡을 헷갈렸나 봅니다^^;' },
+            { who: '국어3 서희경', text: 'ㅎㅎ 어머' },
+          ],
+          msgs: [
+            { from: 'them', who: '아버지', text: '학생들에게. 인사를 잘 부탁한다고. 해주세요.^^ 늘 밝은 우리 학교가 됩시다.^^', at: '10/15 14:23' },
+            { from: 'them', who: '교감쌤', text: '좋은 말씀 감사합니다~ 교장 선생님.^^', at: '10/15 14:25' },
+            { from: 'them', who: '영어2 최미선', text: '알겠습니다..', at: '10/15 14:26' }
+          ]
+        },
+        { name: '작가님',
+          msgs: [
+            { from: 'them', who: '작가님', text: '도애 씨~ 기사 봤어요', at: '10/25 18:11' },
+            { from: 'them', who: '작가님', text: '우리 후속 촬영이 가능할까?', at: '10/25 18:11' },
+            { from: 'them', who: '작가님', text: '특집 한번 하면 좋겠는데', at: '10/25 18:12', unread: true }
+          ]
+        }
+      ]
     },
     messages: [
       { name: '채원이 아빠',
@@ -1577,7 +1691,10 @@ function deliverAfterCall(c){
   let t = threads.find(x => x.name === c.name);
   if (!t){ t = { name: c.name, replies: c.replies || [], msgs: [] }; threads.push(t); }
   const now = new Date();
-  c.after.msgs.forEach(text => t.msgs.push({ from: 'them', text, ts: now, read: false }));
+  c.after.msgs.forEach((text, i) => {
+    t.msgs.push({ from: 'them', text, ts: now, read: false });
+    setTimeout(() => notify('sms', t.name, text, () => { closeCall(); show('msgApp'); openThread(threads.indexOf(t)); }), 600 + i * 1200);
+  });
   updateBadge(); renderLog();
   if ($('m-list').classList.contains('on')) renderList();
 }
@@ -1612,6 +1729,26 @@ function pickReply(replies, fallback, flat){
   if (v === undefined || v === null || v === '') return null;
   return Array.isArray(v) ? v[Math.floor(Math.random() * v.length)] : v;
 }
+/* ---- 알림 배너 (문자·카톡이 도착했는데 그 대화를 보고 있지 않을 때) ---- */
+let notifTimer = null, notifOpen = null;
+function notify(kind, title, text, open){
+  const n = $('notif');
+  const icon = kind === 'kakao'
+    ? '<svg viewBox="0 0 24 24"><path d="M12 3C6.5 3 2 6.4 2 10.7c0 2.7 1.8 5.1 4.5 6.5l-1 3.6c-.1.3.3.6.6.4l4.2-2.8c.5.1 1.1.1 1.7.1 5.5 0 10-3.4 10-7.8S17.5 3 12 3z"/></svg>'
+    : '<svg viewBox="0 0 24 24"><path d="M12 3C6.5 3 2.5 6.6 2.5 11c0 2.5 1.4 4.7 3.6 6.1-.1 1.2-.7 2.4-1.6 3.2 2-.1 3.7-.8 4.8-1.8.9.2 1.8.3 2.7.3 5.5 0 9.5-3.6 9.5-7.8S17.5 3 12 3z"/></svg>';
+  n.innerHTML = `<span class="ni ${kind}">${icon}</span><div class="nb"><div class="nt"><span>${kind === 'kakao' ? '카카오톡' : '메시지'}</span><span>지금</span></div><div class="nn"></div><div class="nx"></div></div>`;
+  n.querySelector('.nn').textContent = title;
+  n.querySelector('.nx').textContent = text;
+  notifOpen = open;
+  n.classList.add('on');
+  clearTimeout(notifTimer);
+  notifTimer = setTimeout(() => n.classList.remove('on'), 4500);
+}
+$('notif').addEventListener('click', () => {
+  $('notif').classList.remove('on'); clearTimeout(notifTimer);
+  if (notifOpen) notifOpen();
+});
+
 const REPLY_MS = 2000;          // 답장이 오기까지 시간 (밀리초)
 let threads = [], openIdx = -1, pending = 0;
 
@@ -1739,6 +1876,7 @@ function sendMsg(){
     t.msgs.push({ from: 'them', text: replyText, ts: new Date(), read: viewing });
     updateBadge();
     renderLog();
+    if (!viewing) notify('sms', t.name, replyText, () => { show('msgApp'); openThread(threads.indexOf(t)); });
     if (viewing) renderThread(); else if ($('m-list').classList.contains('on')) renderList();
   }, REPLY_MS);
 }
@@ -1961,8 +2099,8 @@ function loadKakao(cfg){
   kk.pay = Number.isFinite(k.pay) ? k.pay : 0;
   kk.friends = (k.friends || []).map(f => ({ name: f.name, status: f.status || '', img: f.img || '', favorite: !!f.favorite }));
   kk.chats = (k.chats || []).map(t => ({
-    name: t.name, replies: t.replies || [],
-    msgs: t.msgs.map(m => ({ from: m.from, text: m.text, ts: parseAt(m.at), read: !m.unread }))
+    name: t.name, replies: t.replies || [], fallback: t.fallback, count: t.count || 0, firstReply: t.firstReply || null,
+    msgs: t.msgs.map(m => ({ from: m.from, who: m.who || '', text: m.text, ts: parseAt(m.at), read: !m.unread }))
   }));
   kk.openIdx = -1; kk.pending = 0;
   $('k-room').classList.remove('on');
@@ -2014,14 +2152,21 @@ function renderKakaoChats(){
   const box = $('kChats');
   box.innerHTML = '';
   if (!kk.chats.some(t => t.msgs.length)){ box.appendChild(el('div','k-empty','메시지 없음')); return; }
-  kk.chats.forEach((t,i) => {
+  const order = kk.chats.map((t,i) => i).sort((a,b) => {          // 최근 대화가 위로
+    const f = x => kk.chats[x].msgs.length ? kk.chats[x].msgs[kk.chats[x].msgs.length-1].ts : 0;
+    return f(b) - f(a);
+  });
+  order.forEach(i => {
+    const t = kk.chats[i];
     if (!t.msgs.length) return;
     const last = t.msgs[t.msgs.length-1];
     const unread = t.msgs.filter(m => m.from === 'them' && !m.read).length;
     const row = el('button','k-chat'); row.type = 'button';
     row.appendChild(kAv(t.name));
     const ct = el('div','k-ct');
-    ct.appendChild(el('div','k-cn', t.name));
+    const cn = el('div','k-cn', t.name);
+    if (t.count){ const c = el('span','k-cnt', t.count); cn.appendChild(c); }
+    ct.appendChild(cn);
     ct.appendChild(el('div','k-cp', last.text));
     row.appendChild(ct);
     const cr = el('div','k-cr');
@@ -2043,15 +2188,16 @@ function renderKRoom(){
     const newDay = !prev || prev.ts.toDateString() !== m.ts.toDateString();
     if (newDay) body.appendChild(el('div','k-date', kDate(m.ts)));
     const mine = m.from === 'me';
-    const first = newDay || prev.from !== m.from;
+    const who = mine ? '' : (m.who || t.name);            // 단톡방: 말한 사람 이름
+    const first = newDay || prev.from !== m.from || (prev.who || '') !== (m.who || '');
     const row = el('div','k-msg ' + (mine ? 'me' : 'them'));
     if (!mine){
-      const av = kAv(t.name);
+      const av = kAv(who);
       if (!first) av.style.visibility = 'hidden';
       row.appendChild(av);
     }
     const col = el('div','k-col');
-    if (!mine && first) col.appendChild(el('div','k-who', t.name));
+    if (!mine && first) col.appendChild(el('div','k-who', who));
     const line = el('div','k-line');
     const bub = el('div','k-bub', m.text), tm = el('span','k-tm', kTime(m.ts));
     if (mine){ line.appendChild(tm); line.appendChild(bub); } else { line.appendChild(bub); line.appendChild(tm); }
@@ -2071,7 +2217,7 @@ function openKRoom(i){
   kk.openIdx = i;
   kk.chats[i].msgs.forEach(m => { m.read = true; });      // 열면 읽음 처리, 목록 배지도 사라짐
   updateKakaoBadge();
-  $('kRName').textContent = kk.chats[i].name;
+  $('kRName').textContent = kk.chats[i].name + (kk.chats[i].count ? '  ' + kk.chats[i].count : '');
   $('k-room').classList.add('on');
   renderKRoom();
 }
@@ -2093,18 +2239,22 @@ function sendK(){
   updateKSend();
 
   const flat = text.replace(/\s/g,'');
-  const rule = t.replies.find(r => r.keys.some(k => flat.includes(k.replace(/\s/g,''))));
-  if (rule) kk.pending++;
+  /* 답장 목록: firstReply(이 방에서 처음 보낼 때 한 번만 오는 메시지들) 또는 키워드 답장 */
+  let incoming = [];
+  if (t.firstReply && !t.firstDone){ t.firstDone = true; incoming = t.firstReply.map(x => ({ who: x.who || '', text: x.text })); }
+  else { const r = pickReply(t.replies, t.fallback, flat); if (r) incoming = [{ who: '', text: r }]; }
+  kk.pending += incoming.length;                 // 남은 답장 수만큼 '입력 중' 표시
   renderKRoom();
 
-  if (rule) setTimeout(() => {
+  incoming.forEach((m, n) => setTimeout(() => {
     kk.pending = Math.max(0, kk.pending - 1);
     const viewing = kk.openIdx === kk.chats.indexOf(t) &&
                     !$('kakaoApp').classList.contains('hidden') && $('k-room').classList.contains('on');
-    t.msgs.push({ from: 'them', text: rule.text, ts: new Date(), read: viewing });
+    t.msgs.push({ from: 'them', who: m.who, text: m.text, ts: new Date(), read: viewing });
     updateKakaoBadge();
+    if (!viewing) notify('kakao', t.name, (m.who ? m.who + ' : ' : '') + m.text, () => { show('kakaoApp'); kakaoTab('k-chats'); openKRoom(kk.chats.indexOf(t)); });
     if (viewing) renderKRoom(); else renderKakaoChats();
-  }, REPLY_MS);
+  }, REPLY_MS + n * 1300));
 }
 
 /* ---- 환경설정 ---- */
