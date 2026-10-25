@@ -1144,6 +1144,7 @@ const NAMES = {
        call 을 [[1번째],[다시 걸면],[또다시 걸면]] 처럼 적으면 걸 때마다 다음 대사 */
     contacts: [
       { name: '채원이 아빠', number: '', favorite: true,
+        afterCall: { count: 2, msgs: ['도애야 어디야 ㅋㅋ', '뭐 해 ㅋㅋ'] },   // 2번째 건 전화가 끊기면 문자 도착
         call: [['배도애?', '또 왜 전화했어', '어 나도 보고 싶어'], ['오늘 왜 이러지 진짜', '나도 보고 싶다니까', '…', '보러 갈까?', '어디야?'], ['알았어 알았어', '가는 중이니까 조금만 기다려', '사랑해']] },
       { name: '아버지', number: '',
         call: ['그래 무슨 일이야 아들', '전해 들었다 누구 만난다면서', '다음에 집에 한번 데리고 와'] },
@@ -1168,7 +1169,28 @@ const NAMES = {
       { name: '권소헌', number: '',
         call: ['어? 선배 웬일이에요', '안 그래도 소식 들었어요', '저 선배 커플 응원했어요', '결혼식 하면 초대 좀 해주세요'] }
     ],
-    callLog: [],
+    callLog: [
+      { name: '채원이 아빠', dir: 'out', at: '8/3 18:32', dur: '2시간 11분' },
+      { name: '공주님', dir: 'missed', at: '8/3 23:13' },
+      { name: '공주님', dir: 'out', at: '8/3 23:15', dur: '6분' },
+      { name: '공주님', dir: 'noanswer', at: '8/11 19:03' },
+      { name: '공주님', dir: 'out', at: '8/11 19:14', dur: '13분' },
+      { name: '엄마', dir: 'in', at: '8/16 13:37', dur: '16분' },
+      { name: '영어2 최미선', dir: 'in', at: '8/24 14:11', dur: '3분' },
+      { name: '채원이 아빠', dir: 'out', at: '8/27 16:24', dur: '2시간 32분' },
+      { name: '채원이 아빠', dir: 'out', at: '9/3 21:31', dur: '1시간 3분' },
+      { name: '엄마', dir: 'in', at: '9/16 18:06', dur: '18분' },
+      { name: '석균안', dir: 'out', at: '9/27 17:43', dur: '8분' },
+      { name: '아버지', dir: 'in', at: '10/6 10:32', dur: '9분' },
+      { name: '공주님', dir: 'in', at: '10/13 13:37', dur: '6분' },
+      { name: '채원이 아빠', dir: 'out', at: '10/16 19:25', dur: '2시간 46분' },
+      { name: '엄마', dir: 'out', at: '10/21 18:33', dur: '8분' },
+      { name: '채원이 아빠', dir: 'out', at: '10/24 16:39', dur: '1시간 24분' },
+      { name: '엄마', dir: 'in', at: '10/24 19:32', dur: '3분' },
+      { name: '공주님', dir: 'in', at: '10/24 20:24', dur: '2분' },
+      { name: '2-1 채미', dir: 'missed', at: '10/24 20:36' }
+    ],
+    logMessages: false,      // false: 설정에 적어둔 과거 문자는 기록 탭에 안 나옴 (통화만). 직접 주고받은 문자는 나옴
     camera: { view: 'images/baedoae_cam_big.jpg', thumb: 'images/baedoae_cam_small.jpg' },
     apps: { todos: ['17:00 데이트'], music: { url: 'https://youtu.be/rfykBICvtCo?si=cjNnbjijXMkETYKA', title: '', artist: '', color: '#e0526b' }, searches: ['남자 향수 추천', '국내 여행지 추천', '남다현', '배도애 남다현'], videos: [
       { url: 'https://youtu.be/1YLd9L6KBCM?si=lIePcDbum83ij37C', meta: '', progress: 0.5 },
@@ -1216,7 +1238,120 @@ const NAMES = {
       ],
       chats: []
     },
-    messages: []
+    messages: [
+      { name: '채원이 아빠',
+        fallback: '?',
+        replies: [
+          { keys: ['좋아해'], text: '어 나도 도애 좋아 ㅋㅋ' },
+          { keys: ['사랑해'], text: '나도 사랑해' },
+          { keys: ['뭐해', 'ㅁㅎ'], text: '네 생각~' },
+          { keys: ['나도'], text: '내가 더' },
+          { keys: ['보고싶어'], text: '보러 와' },
+          { keys: ['형'], text: '뭐야 이제 네가 동생이야?' },
+        ],
+        msgs: [
+          { from: 'me', text: '다현이 안녕', at: '8/3 18:32' },
+          { from: 'them', text: '어 도애 안녕', at: '8/3 18:33' },
+          { from: 'me', text: '다현아~ 프로그램 끝났다고 안 볼 거 아니지? ㅎㅎ', at: '8/3 18:34' },
+          { from: 'me', text: '그럼 좀 서운할 것 같은데', at: '8/3 18:35' },
+          { from: 'them', text: 'ㅋㅋ 도애야', at: '8/3 18:36' },
+          { from: 'them', text: '언제 볼 건데', at: '8/3 18:37' },
+          { from: 'me', text: '전화할게', at: '8/3 18:38' },
+          { from: 'me', text: '다현아 전에 거기 같이 갈 거지?', at: '8/11 13:27' },
+          { from: 'them', text: '응 가야지', at: '8/11 13:28' },
+          { from: 'me', text: '이번주 토요일 어때', at: '8/11 13:29' },
+          { from: 'them', text: '알았어 토요일 11시?', at: '8/11 13:30' },
+          { from: 'me', text: '좋아 ㅎㅎ', at: '8/11 13:31' },
+          { from: 'me', text: '다현이 어디', at: '8/15 11:03' },
+          { from: 'them', text: '나 편의점 앞이야', at: '8/15 11:04' },
+          { from: 'me', text: '보인다! ㅎㅎ', at: '8/15 11:05' }
+        ]
+      },
+      { name: '교무부장3 임장선',
+        msgs: [
+          { from: 'them', text: '도애쌤 보고서 제출하세요', at: '10/23 17:22' },
+          { from: 'me', text: '넵', at: '10/23 17:23' }
+        ]
+      },
+      { name: '공주님',
+        fallback: ['오빠 나 바빠 연락 ㄴㄴ', '전화하든지', '용돈 줄 거 아니면 연락 금지', '나 지금 바빠'],
+        msgs: [
+          { from: 'them', text: '[Web발신] 캐치콜<통화중> 26/08/03 23:13 공주님 님이 전화하셨습니다', at: '8/3 23:13' },
+          { from: 'them', text: '[Web발신][통화가능알림] 통화 가능합니다. 연결하려면 통화버튼을 눌러주세요.', at: '8/11 19:11' },
+          { from: 'them', text: '오빠', at: '9/25 16:22' },
+          { from: 'them', text: '올 때 과자 좀', at: '9/25 16:23' },
+          { from: 'me', text: '과자 어떤 거?', at: '9/25 16:24' },
+          { from: 'them', text: '초코', at: '9/25 16:25' },
+          { from: 'them', text: '오빠 연ㄹ애설 났는데?', at: '10/24 14:37' },
+          { from: 'me', text: '웅 ㅎㅎ 별거 아니야', at: '10/24 14:38' }
+        ]
+      },
+      { name: '차단된 번호',
+        msgs: [
+          { from: 'them', text: '도애야 오랜만이야 방송 나온 거 봤어… 요새 네 생각 많이 나더라 어떻게 지내?', at: '8/7 1:49' }
+        ]
+      },
+      { name: '석균안',
+        msgs: [
+          { from: 'them', text: '배~~ 살아는 계십니까ㅋㅋ', at: '9/27 16:34' },
+          { from: 'them', text: '우리 동기끼리 함 모여야지', at: '9/27 16:35' },
+          { from: 'me', text: '균안아 간만이당 ㅎㅎ', at: '9/27 16:36' },
+          { from: 'me', text: '언제 하는데?', at: '9/27 16:37' },
+          { from: 'them', text: '10월 5일에 보기로 했다', at: '9/27 16:38' },
+          { from: 'me', text: '헐 그때 데이트ㅠㅠ', at: '9/27 16:39' },
+          { from: 'them', text: 'ㅋㅋ 해병대 의리냐 사랑이냐', at: '9/27 16:40' },
+          { from: 'me', text: '사랑 ㅎㅎ', at: '9/27 16:41' },
+          { from: 'them', text: '배도애 닌 영구제명이야! ㅋㅋ', at: '9/27 16:42' },
+          { from: 'me', text: '살려줘~~ㅎㅎ', at: '9/27 16:43' }
+        ]
+      },
+      { name: '2-1 채미',
+        fallback: '결혼할 거예요?',
+        msgs: [
+          { from: 'them', text: '쌤', at: '8/3 16:39' },
+          { from: 'them', text: '다현님이랑 진짜 사겨요?', at: '8/3 16:40' },
+          { from: 'me', text: '채미야~~ 공부를 해야지 쌤 보고 있을 때가 아니지~~', at: '8/3 16:41' },
+          { from: 'them', text: '사겨요??', at: '8/3 16:42' },
+          { from: 'them', text: '사겨요??', at: '8/17 18:22' },
+          { from: 'them', text: '사겨요?', at: '9/9 13:31' },
+          { from: 'me', text: '채미야! 보건실에서 지갑 찾았어', at: '9/18 19:06' },
+          { from: 'them', text: '감사해요 쌤', at: '9/18 19:07' },
+          { from: 'them', text: '연애해서 눈썰미 좋아진듯', at: '9/18 19:08' },
+          { from: 'me', text: '채미야! 아니야~~', at: '9/18 19:09' },
+          { from: 'them', text: '진짜 사겨요?', at: '9/21 11:37' },
+          { from: 'me', text: '채미 왜 폰을 하고 있지~~ 압수~~', at: '9/21 11:38' },
+          { from: 'them', text: '사겨요??', at: '10/3 10:41' }
+        ]
+      },
+      { name: '1-5 주윤이',
+        fallback: '쌤 연애 얘기해 주세요',
+        msgs: [
+          { from: 'them', text: '쌤 연애하죠', at: '8/18 19:33' },
+          { from: 'me', text: '주윤이가 왜 이럴까~~', at: '8/18 19:34' },
+          { from: 'them', text: '지켜봄', at: '8/18 19:35' },
+          { from: 'them', text: '오늘 사거리에서 내려준 차', at: '9/16 19:21' },
+          { from: 'them', text: '남친?? 다현??', at: '9/16 19:22' },
+          { from: 'me', text: '다현이 뭐야~ 다현이가 주윤이 친군 줄~~', at: '9/16 19:23' },
+          { from: 'them', text: '죄송해요', at: '9/16 19:24' },
+          { from: 'them', text: '쌤 언제 사귐', at: '10/15 19:49' },
+          { from: 'me', text: '주윤이 ㅎㅎ 안 질려?', at: '10/15 19:50' },
+          { from: 'them', text: '이럴 줄 알았어', at: '10/24 19:42' },
+          { from: 'me', text: '예리한 주윤이~~', at: '10/24 19:43' }
+        ]
+      },
+      { name: '치치 카드',
+        msgs: [
+          { from: 'them', text: '[Web발신][결제 완료] 플라워박스에서 183,000원 결제가 완료되었습니다.', at: '8/9 20:33' },
+          { from: 'them', text: '[Web발신][결제 완료] Tiffany에서 6,180,000원 결제가 완료되었습니다.', at: '10/25 14:33', unread: true }
+        ]
+      },
+      { name: '배달의 민족',
+        msgs: [
+          { from: 'them', text: '[Web발신][배달의 민족] 문앞으로 배달이 완료되었습니다. 맛있게 드세요!\n▶주문일시: 2026-09-13 14:47:58\n▶매장명: 요아정 금사점', at: '9/13 15:01' },
+          { from: 'them', text: '[Web발신][배달의 민족] 문앞으로 배달이 완료되었습니다. 맛있게 드세요!\n▶주문일시: 2026-10-05 09:34:19\n▶매장명: 샌드위치천국 금사중앙점', at: '10/5 9:54' }
+        ]
+      }
+    ]
   },
   // '서편화': { battery: 42, wallpaper: '#1a1a2e', text: '' },
 };
@@ -1394,16 +1529,16 @@ const clearTimers = () => { timers.forEach(clearTimeout); timers = []; };
 let callFromKeypad = false;
 
 function startCall(contact){
-  let name, script, extra = '';
+  let name, script, extra = '', callTarget = null;
   if (contact){                                   // 전화번호부에서 건 전화
     callFromKeypad = false;
-    name = contact.name; script = nextScript(contact);
+    name = contact.name; script = nextScript(contact); callTarget = contact;
   } else {                                        // 키패드에서 건 전화
     if (!digits) return;
     callFromKeypad = true;
     const found = contacts.find(c => c.number.replace(/\D/g,'') === digits);
     if (found){                                   // 저장된 번호를 직접 눌러도 그 사람에게 걸림
-      name = found.name; script = nextScript(found);
+      name = found.name; script = nextScript(found); callTarget = found;
     } else {
       const isNum = /^[0-9]+$/.test(digits);
       const valid = isNum && digits.length === CALL.numberLength;
@@ -1413,10 +1548,12 @@ function startCall(contact){
     }
   }
   addCallLog(name, extra);
-  runCall(name, script);
+  runCall(name, script, callTarget);
 }
 
-function runCall(name, script){
+let callContact = null;
+function runCall(name, script, contact){
+  callContact = contact || null;
   clearTimers();
   $('callName').textContent = name;
   $('callSub').textContent  = '발신 중...';
@@ -1433,8 +1570,21 @@ function runCall(name, script){
   later(finishCall, CALL.ringMs + script.length * CALL.lineMs + 600);   // 마지막 대사 후 종료
 }
 
+/* afterCall: { count: N, msgs: [...] } → 이 사람에게 N번째 건 전화가 끊기면 그 시각으로 문자가 도착 */
+function deliverAfterCall(c){
+  if (!c || !c.after || c.afterDone || c.tries !== c.after.count) return;
+  c.afterDone = true;
+  let t = threads.find(x => x.name === c.name);
+  if (!t){ t = { name: c.name, replies: c.replies || [], msgs: [] }; threads.push(t); }
+  const now = new Date();
+  c.after.msgs.forEach(text => t.msgs.push({ from: 'them', text, ts: now, read: false }));
+  updateBadge(); renderLog();
+  if ($('m-list').classList.contains('on')) renderList();
+}
+
 function finishCall(){
   clearTimers();
+  deliverAfterCall(callContact);
   $('callSub').textContent = '통화 종료';
   later(closeCall, 1400);
 }
@@ -1454,6 +1604,14 @@ $('endBtn').addEventListener('click', () => {      // 통화 중 직접 끊기
 /* ====================================================
    10. 문자
    ==================================================== */
+/* 키워드 답장: replies 에서 맞는 첫 규칙. 없으면 fallback(아무거나 보냈을 때) 사용.
+   text/fallback 이 배열이면 그중 무작위 */
+function pickReply(replies, fallback, flat){
+  const rule = (replies || []).find(r => r.keys.some(k => flat.includes(k.replace(/\s/g,''))));
+  const v = rule ? rule.text : fallback;
+  if (v === undefined || v === null || v === '') return null;
+  return Array.isArray(v) ? v[Math.floor(Math.random() * v.length)] : v;
+}
 const REPLY_MS = 2000;          // 답장이 오기까지 시간 (밀리초)
 let threads = [], openIdx = -1, pending = 0;
 
@@ -1468,7 +1626,7 @@ const listText = d => `${d.getMonth()+1}/${d.getDate()}`;
 function loadThreads(cfg){
   threads = (cfg.messages || []).map(t => ({
     name: t.name,
-    replies: t.replies || [],
+    replies: t.replies || [], fallback: t.fallback,
     msgs: t.msgs.map(m => ({ from: m.from, text: m.text, ts: parseAt(m.at), read: !m.unread }))
   }));
   openIdx = -1; pending = 0;
@@ -1497,7 +1655,13 @@ function renderList(){
   const box = $('mRows');
   box.innerHTML = '';
   if (!threads.some(t => t.msgs.length)){ box.appendChild(el('div','m-empty','메시지 없음')); return; }
-  threads.forEach((t,i) => {
+  const order = threads.map((t,i) => i).sort((a,b) => {     // 최근 문자가 온/보낸 대화가 위로
+    const ta = threads[a].msgs.length ? threads[a].msgs[threads[a].msgs.length-1].ts : 0;
+    const tb = threads[b].msgs.length ? threads[b].msgs[threads[b].msgs.length-1].ts : 0;
+    return tb - ta;
+  });
+  order.forEach(i => {
+    const t = threads[i];
     if (!t.msgs.length) return;            // 아직 주고받은 문자가 없는 대화는 목록에 안 보임
     const last = t.msgs[t.msgs.length-1];
     const unread = t.msgs.some(m => m.from === 'them' && !m.read);
@@ -1564,15 +1728,15 @@ function sendMsg(){
   updateSend();
 
   const flat = text.replace(/\s/g,'');
-  const rule = t.replies.find(r => r.keys.some(k => flat.includes(k.replace(/\s/g,''))));
-  if (rule) pending++;
+  const replyText = pickReply(t.replies, t.fallback, flat);
+  if (replyText) pending++;
   renderThread();
 
-  if (rule) setTimeout(() => {
+  if (replyText) setTimeout(() => {
     pending = Math.max(0, pending - 1);
     const viewing = openIdx === threads.indexOf(t) &&
                     !$('msgApp').classList.contains('hidden') && $('m-thread').classList.contains('on');
-    t.msgs.push({ from: 'them', text: rule.text, ts: new Date(), read: viewing });
+    t.msgs.push({ from: 'them', text: replyText, ts: new Date(), read: viewing });
     updateBadge();
     renderLog();
     if (viewing) renderThread(); else if ($('m-list').classList.contains('on')) renderList();
@@ -1628,7 +1792,7 @@ function nextScript(c){
 function loadContacts(cfg){
   contacts = (cfg.contacts || []).map(c => ({
     name: c.name, number: c.number || '', favorite: !!c.favorite,
-    calls: callAttempts(c.call), tries: 0,
+    calls: callAttempts(c.call), tries: 0, after: c.afterCall || null,
     replies: c.replies || []
   }));
   backToContactList();
@@ -1695,12 +1859,14 @@ $('cdMsgRow').addEventListener('click', () => openMessagesWith(curContact));
    ==================================================== */
 const ICON_CALL = 'M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z';
 const ICON_MSG  = 'M12 3C6.5 3 2.5 6.6 2.5 11c0 2.5 1.4 4.7 3.6 6.1-.1 1.2-.7 2.4-1.6 3.2 2-.1 3.7-.8 4.8-1.8.9.2 1.8.3 2.7.3 5.5 0 9.5-3.6 9.5-7.8S17.5 3 12 3z';
-const CALL_LABEL = { out: '발신 전화', in: '수신 전화', missed: '부재중 전화' };
+const CALL_LABEL = { out: '발신 전화', in: '수신 전화', missed: '부재중 전화', noanswer: '부재중 발신' };
+let logMsgs = true, sessionStart = new Date();
 let callLog = [];
 
 function loadLog(cfg){                          // 설정에 적어둔 과거 통화
+  logMsgs = cfg.logMessages !== false; sessionStart = new Date();
   callLog = (cfg.callLog || []).map(c => ({
-    type: 'call', dir: c.dir || 'out', name: c.name, extra: c.extra || '', ts: parseAt(c.at)
+    type: 'call', dir: c.dir || 'out', name: c.name, extra: c.dur || c.extra || '', ts: parseAt(c.at)
   }));
   renderLog();
 }
@@ -1714,9 +1880,9 @@ function renderLog(){
   const box = $('logList');
   box.innerHTML = '';
   const items = callLog.slice();
-  threads.forEach(t => t.msgs.forEach(m => items.push({    // 문자는 주고받은 내용 그대로 기록
+  threads.forEach(t => t.msgs.forEach(m => { if (!logMsgs && m.ts < sessionStart) return; items.push({    // 문자는 주고받은 내용 그대로 기록
     type: 'msg', dir: m.from === 'me' ? 'out' : 'in', name: t.name, text: m.text, ts: m.ts
-  })));
+  }); }));
   if (!items.length){ box.appendChild(el('div','m-empty','기록 없음')); return; }
 
   items.sort((a,b) => a.ts - b.ts);   // 오래된 순 (최신순으로 되돌리려면 a.ts - b.ts 를 b.ts - a.ts 로)
