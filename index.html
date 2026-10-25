@@ -446,6 +446,8 @@ svg{display:block}
 .k-room.on{display:flex}
 .k-rhead{display:flex;align-items:center;gap:6px;padding:6px 18px 10px 12px;flex:none}
 .k-rhead>button{background:none;border:0;font-size:30px;line-height:1;color:#111;cursor:pointer;padding:0 8px 4px 0}
+.k-mt{display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-end;gap:1px}
+.k-un{font-size:11px;font-weight:700;color:#e8b600;line-height:1}
 .k-cnt{margin-left:6px;font-size:13px;font-weight:400;color:#9a9a9a}
 .k-rname{font-size:18px;font-weight:700;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .k-rbody{flex:1;overflow-y:auto;padding:4px 12px 12px;scrollbar-width:none}
@@ -1330,8 +1332,8 @@ const NAMES = {
             { from: 'them', who: '엄마', text: '오늘도 힘찬 하루~~', at: '10/25 10:43', unread: true }
           ]
         },
-        { name: '학교', count: 7,
-          /* 이 방에서 처음 무언가 보내면 한 번만 도착 */
+        { name: '학교', count: 7, showReaders: true,
+          /* 이 방에서 처음 무언가 보내면 한 번만 도착. showReaders: 내 메시지 옆에 안 읽은 사람 수(처음 6)가 보이고, 답이 올 때마다 1씩 줄어 3이 됨 */
           firstReply: [
             { who: '국어3 서희경', text: '도애쌤?' },
             { who: '교무부장3 임장선', text: '단톡을 헷갈렸나 봅니다^^;' },
@@ -2099,7 +2101,7 @@ function loadKakao(cfg){
   kk.pay = Number.isFinite(k.pay) ? k.pay : 0;
   kk.friends = (k.friends || []).map(f => ({ name: f.name, status: f.status || '', img: f.img || '', favorite: !!f.favorite }));
   kk.chats = (k.chats || []).map(t => ({
-    name: t.name, replies: t.replies || [], fallback: t.fallback, count: t.count || 0, firstReply: t.firstReply || null,
+    name: t.name, replies: t.replies || [], fallback: t.fallback, count: t.count || 0, firstReply: t.firstReply || null, showReaders: !!t.showReaders,
     msgs: t.msgs.map(m => ({ from: m.from, who: m.who || '', text: m.text, ts: parseAt(m.at), read: !m.unread }))
   }));
   kk.openIdx = -1; kk.pending = 0;
@@ -2200,7 +2202,11 @@ function renderKRoom(){
     if (!mine && first) col.appendChild(el('div','k-who', who));
     const line = el('div','k-line');
     const bub = el('div','k-bub', m.text), tm = el('span','k-tm', kTime(m.ts));
-    if (mine){ line.appendChild(tm); line.appendChild(bub); } else { line.appendChild(bub); line.appendChild(tm); }
+    let meta = tm;
+    if (mine && m.unreadBy > 0){                          // 단톡방: 아직 안 읽은 사람 수 (노란 숫자)
+      meta = el('span','k-mt'); meta.appendChild(el('span','k-un', m.unreadBy)); meta.appendChild(tm);
+    }
+    if (mine){ line.appendChild(meta); line.appendChild(bub); } else { line.appendChild(bub); line.appendChild(meta); }
     col.appendChild(line);
     row.appendChild(col);
     body.appendChild(row);
@@ -2234,7 +2240,7 @@ function sendK(){
   const text = $('kInput').value.trim();
   if (!text || kk.openIdx < 0) return;
   const t = kk.chats[kk.openIdx];
-  t.msgs.push({ from: 'me', text, ts: new Date(), read: true });
+  t.msgs.push({ from: 'me', text, ts: new Date(), read: true, unreadBy: t.showReaders ? Math.max(0, t.count - 1) : 0 });
   $('kInput').value = '';
   updateKSend();
 
@@ -2251,6 +2257,10 @@ function sendK(){
     const viewing = kk.openIdx === kk.chats.indexOf(t) &&
                     !$('kakaoApp').classList.contains('hidden') && $('k-room').classList.contains('on');
     t.msgs.push({ from: 'them', who: m.who, text: m.text, ts: new Date(), read: viewing });
+    if (t.showReaders){                               // 답이 올 때마다 내 메시지의 안 읽은 사람이 1명씩 줄어듦
+      const mine = t.msgs.filter(x => x.from === 'me' && x.unreadBy > 0).pop();
+      if (mine) mine.unreadBy--;
+    }
     updateKakaoBadge();
     if (!viewing) notify('kakao', t.name, (m.who ? m.who + ' : ' : '') + m.text, () => { show('kakaoApp'); kakaoTab('k-chats'); openKRoom(kk.chats.indexOf(t)); });
     if (viewing) renderKRoom(); else renderKakaoChats();
