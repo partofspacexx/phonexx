@@ -1986,12 +1986,14 @@ $('kInput').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.isCom
 /* ====================================================
    14. 카메라
    ==================================================== */
+let camView = '', camShots = [];            // 촬영 버튼으로 찍은 사진 (큰 화면 사진이 갤러리에 추가됨)
 function loadCamera(cfg){
   /* camera: '경로' 하나면 큰 화면·작은 사진 모두 같은 사진 / { view:'큰 사진', thumb:'작은 사진' } 이면 각각 */
   const c = cfg.camera, u = f => f ? `url("${String(f).replace(/"/g,'%22')}")` : '';
   const view = (c && typeof c === 'object') ? c.view : c, thumb = (c && typeof c === 'object') ? c.thumb : c;
   $('camVf').style.backgroundImage = u(view);
   $('camThumb').style.backgroundImage = u(thumb);
+  camView = view || ''; camShots = [];
 }
 $('openCam').addEventListener('click', () => show('cameraApp'));
 $('closeCam').addEventListener('click', () => show('home'));
@@ -1999,6 +2001,10 @@ $('shutter').addEventListener('click', () => {
   const f = $('camFlash');
   f.classList.add('on');
   setTimeout(() => f.classList.remove('on'), 60);
+  if (camView){                                   // 촬영: 작은 사진이 방금 찍은 사진으로 바뀌고 갤러리에도 추가
+    $('camThumb').style.backgroundImage = `url("${String(camView).replace(/"/g,'%22')}")`;
+    camShots.unshift({ src: camView });
+  }
 });
 
 /* ====================================================
@@ -2451,7 +2457,7 @@ function renderGallery(box){
   top.appendChild(ic); box.appendChild(top);
   const sc = el('div','ga-scroll'); box.appendChild(sc);
   const now = new Date();                          // at 을 안 적은 사진은 모두 같은 시각 → 적은 순서 그대로
-  const photos = (CUR.photos || []).map(p => ({ src: p.src || '', color: p.color || '', ts: p.at ? parseAt(p.at) : now }))
+  const photos = camShots.concat(CUR.photos || []).map(p => ({ src: p.src || '', color: p.color || '', ts: p.at ? parseAt(p.at) : now }))
     .sort((a, b) => b.ts - a.ts);
   if (!photos.length) sc.appendChild(gEmpty('사진 없음'));
   const groups = [];
