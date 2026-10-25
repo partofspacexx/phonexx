@@ -1489,7 +1489,7 @@ const NAMES = {
     ],
     callLog: [],
     logMessages: false,
-    camera: '',
+    camera: { view: 'images/chanmin_photo01.jpg', thumb: 'images/chanmin_photo02.jpg' },
     apps: {
       todos: ['장 보기', '이불 빨기'],
       music: { url: 'https://youtu.be/IR-6KE8C4VQ?si=9xuqMeJhJVspP2jd', title: '', artist: '', color: '#e0526b' },
@@ -1499,7 +1499,17 @@ const NAMES = {
         { url: 'https://youtu.be/hINZGpJ1Eho?si=m-gis5AZaylUF8xd', meta: '', progress: 1 },
         { url: 'https://youtu.be/jqIf7dTu7g0?si=kDE_y4q97pTngeyy', meta: '', progress: 0.2 },
       ],
-      photos: [],
+      photos: [
+        { src: 'images/chanmin_photo01.jpg' },
+        { src: 'images/chanmin_photo02.jpg' },
+        { src: 'images/chanmin_photo03.jpg' },
+        { src: 'images/chanmin_photo04.jpg' },
+        { src: 'images/chanmin_photo05.jpg' },
+        { src: 'images/chanmin_photo06.jpg' },
+        { src: 'images/chanmin_photo07.jpg' },
+        { src: 'images/chanmin_photo08.jpg' },
+        { src: 'images/chanmin_photo09.jpg' }
+      ],
       alarms: [ { time: '07:30', label: '알람', on: false }, { time: '13:30', label: '알람', on: true }, { time: '19:30', label: '알람', on: true } ],
       couple: { answers: ['별로 안 좋았습니다. 그래도 예뻤던 것으로 기억합니다.', '', '귀엽습니다.', ''] },
     },
@@ -1517,8 +1527,8 @@ const NAMES = {
         { name: '금사교회 단체 채팅방', count: 11,
           /* 이 방에서 처음 무언가 보내면 한 번만 도착 */
           firstReply: [
-            { who: '임구희', text: '쌤 오랜만이네요' },
-            { who: '이요셉', text: '? 뭐야' },
+            { who: '임구희', text: '쌤 오랜만이네요', unreadBy: 8 },
+            { who: '이요셉', text: '? 뭐야', unreadBy: 8 },
           ],
           msgs: [
             { from: 'them', who: '금사교회 이경분 목사님', text: '하나님 안에 거하는 하루 되시길 바랍니다.', at: '9/16 11:10', unread: true },
@@ -1681,7 +1691,7 @@ const NAMES = {
       },
       { name: '차단된 번호',
         msgs: [
-          { from: 'them', text: '너 서정희 알지', at: '9/2 22:16' },
+          { from: 'them', text: '너 서재혁 알지', at: '9/2 22:16' },
           { from: 'them', text: '네가 그 가이드지', at: '9/2 22:17' }
         ]
       },
