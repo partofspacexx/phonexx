@@ -1335,9 +1335,9 @@ const NAMES = {
         { name: '학교', count: 7,
           /* 이 방에서 처음 무언가 보내면 한 번만 도착. 내 메시지 옆에 안 읽은 사람 수(처음 6)가 보이고, 답이 올 때마다 1씩 줄어 3이 됨. (모든 카톡방 공통: 답이 안 오는 방은 숫자가 그대로 남음. 끄려면 방에 showReaders:false) */
           firstReply: [
-            { who: '국어3 서희경', text: '도애쌤?' },
-            { who: '교무부장3 임장선', text: '단톡을 헷갈렸나 봅니다^^;' },
-            { who: '국어3 서희경', text: 'ㅎㅎ 어머' },
+            { who: '국어3 서희경', text: '도애쌤?', unreadBy: 3 },
+            { who: '교무부장3 임장선', text: '단톡을 헷갈렸나 봅니다^^;', unreadBy: 3 },
+            { who: '국어3 서희경', text: 'ㅎㅎ 어머', unreadBy: 3 },
           ],
           msgs: [
             { from: 'them', who: '아버지', text: '학생들에게. 인사를 잘 부탁한다고. 해주세요.^^ 늘 밝은 우리 학교가 됩시다.^^', at: '10/15 14:23' },
@@ -2203,7 +2203,7 @@ function renderKRoom(){
     const line = el('div','k-line');
     const bub = el('div','k-bub', m.text), tm = el('span','k-tm', kTime(m.ts));
     let meta = tm;
-    if (mine && m.unreadBy > 0){                          // 단톡방: 아직 안 읽은 사람 수 (노란 숫자)
+    if (m.unreadBy > 0){                                  // 단톡방: 아직 안 읽은 사람 수 (노란 숫자)
       meta = el('span','k-mt'); meta.appendChild(el('span','k-un', m.unreadBy)); meta.appendChild(tm);
     }
     if (mine){ line.appendChild(meta); line.appendChild(bub); } else { line.appendChild(bub); line.appendChild(meta); }
@@ -2247,7 +2247,7 @@ function sendK(){
   const flat = text.replace(/\s/g,'');
   /* 답장 목록: firstReply(이 방에서 처음 보낼 때 한 번만 오는 메시지들) 또는 키워드 답장 */
   let incoming = [];
-  if (t.firstReply && !t.firstDone){ t.firstDone = true; incoming = t.firstReply.map(x => ({ who: x.who || '', text: x.text })); }
+  if (t.firstReply && !t.firstDone){ t.firstDone = true; incoming = t.firstReply.map(x => ({ who: x.who || '', text: x.text, unreadBy: x.unreadBy || 0 })); }
   else { const r = pickReply(t.replies, t.fallback, flat); if (r) incoming = [{ who: '', text: r }]; }
   kk.pending += incoming.length;                 // 남은 답장 수만큼 '입력 중' 표시
   renderKRoom();
@@ -2256,7 +2256,7 @@ function sendK(){
     kk.pending = Math.max(0, kk.pending - 1);
     const viewing = kk.openIdx === kk.chats.indexOf(t) &&
                     !$('kakaoApp').classList.contains('hidden') && $('k-room').classList.contains('on');
-    t.msgs.push({ from: 'them', who: m.who, text: m.text, ts: new Date(), read: viewing });
+    t.msgs.push({ from: 'them', who: m.who, text: m.text, ts: new Date(), read: viewing, unreadBy: m.unreadBy || 0 });
     if (t.showReaders){                               // 답이 올 때마다 내 메시지의 안 읽은 사람이 1명씩 줄어듦
       const mine = t.msgs.filter(x => x.from === 'me' && x.unreadBy > 0).pop();
       if (mine) mine.unreadBy--;
