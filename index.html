@@ -1174,7 +1174,19 @@ const NAMES = {
       { url: 'https://youtu.be/1YLd9L6KBCM?si=lIePcDbum83ij37C', meta: '', progress: 0.5 },
       { url: 'https://youtu.be/rFjRsWPGZxY?si=mz4XAAgwTel8inml', meta: '', progress: 1 },
       { url: 'https://youtu.be/n7LxP5SCGZk?si=wN9KhfUwqCVS-Jk4', meta: '', progress: 0 },
-    ], photos: [], alarms: [], couple: { answers: [
+    ], photos: [
+      { src: 'images/baedoae_photo01.jpg' },
+      { src: 'images/baedoae_photo02.jpg' },
+      { src: 'images/baedoae_photo03.jpg' },
+      { src: 'images/baedoae_photo04.jpg' },
+      { src: 'images/baedoae_photo05.jpg' },
+      { src: 'images/baedoae_photo06.jpg' },
+      { src: 'images/baedoae_photo07.jpg' },
+      { src: 'images/baedoae_photo08.jpg' },
+      { src: 'images/baedoae_photo09.jpg' },
+      { src: 'images/baedoae_photo10.jpg' },
+      { src: 'images/baedoae_photo11.jpg' },
+    ], alarms: [], couple: { answers: [
       '성격 좋을 것 같았지~~ 대뜸 반말한 건 맞는데 진짜 나보다 어릴 줄 알았어 ㅋㅋ',
       '같이 데이트하면 다 좋은데~~ 그래도 데이트 길게 갈 일은 잘 없으니까 여행 가면 좋겠다',
       '다현이가 눈이 진짜 예쁘잖아 ㅎㅎ',
@@ -2406,7 +2418,8 @@ function renderGallery(box){
   const ic = el('div','yt-ic'); ic.innerHTML = SVG.search;
   top.appendChild(ic); box.appendChild(top);
   const sc = el('div','ga-scroll'); box.appendChild(sc);
-  const photos = (CUR.photos || []).map(p => ({ src: p.src || '', color: p.color || '', ts: p.at ? parseAt(p.at) : new Date() }))
+  const now = new Date();                          // at 을 안 적은 사진은 모두 같은 시각 → 적은 순서 그대로
+  const photos = (CUR.photos || []).map(p => ({ src: p.src || '', color: p.color || '', ts: p.at ? parseAt(p.at) : now }))
     .sort((a, b) => b.ts - a.ts);
   if (!photos.length) sc.appendChild(gEmpty('사진 없음'));
   const groups = [];
