@@ -155,7 +155,7 @@ svg{display:block}
 
 /* ====== 전화 앱 ====== */
 #phoneApp{background:#000;padding-top:54px}
-.panel{flex:1;display:none;flex-direction:column;align-items:center;justify-content:center}
+.panel{flex:1;min-height:0;display:none;flex-direction:column;align-items:center;justify-content:center}
 .panel.on{display:flex}
 .empty{font-size:16px;color:var(--sub)}
 .tabbar{
@@ -526,7 +526,7 @@ svg{display:block}
 .appic.dis{pointer-events:none;cursor:default}
 #ytHost{position:absolute;left:-300px;top:0;width:200px;height:200px;opacity:0;pointer-events:none}
 
-/* ====== 앱 화면 공통 (인터넷 · 유튜브 · 갤러리 · 커플) ====== */
+/* ====== 앱 화면 공통 (인터넷 · 유튜브 · 갤러리 · QNA) ====== */
 #genApp{--gbg:#fff;--gtx:#111;--gcard:#f4f4f6;--gsub:#8a8a8e;--gsep:rgba(0,0,0,.1);--acc:#e5322e;background:var(--gbg);color:var(--gtx);padding-top:54px}
 #genApp.pink{--gbg:#fff1f6;--gcard:#fff;--acc:#ff5c9a}
 #genApp .app-home{background:var(--gbg)}
@@ -594,7 +594,7 @@ svg{display:block}
 .gl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
 .gl-p{aspect-ratio:1;background:#2f6fe4 center/cover no-repeat}
 
-/* 커플앱 */
+/* QNA 앱 */
 .cp-intro{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;font-size:21px;font-weight:700;color:#d6336c;padding-bottom:60px}
 .cp-spin{width:40px;height:40px;border-radius:50%;border:4px solid #ffd0e1;border-top-color:var(--acc);animation:spin .9s linear infinite}
 .cp-h{font-size:24px;font-weight:800;padding:10px 20px 14px;color:#d6336c}
@@ -1083,7 +1083,7 @@ const NAMES = {
        videos   : 유튜브 영상. title, channel, meta, length, color(단색), progress(0~1: 0.5=반쯤, 1=전부 시청), url(눌렀을 때 열릴 링크)
        photos   : 갤러리 사진. src='images/a.jpg' 또는 color='#2f6fe4', at='월/일 시:분'
        alarms   : 시계 앱 알람 { time:'07:30', label, on }   (세계 시계는 worldClocks:[{city:'서울',tz:'Asia/Seoul'}])
-       couple   : 커플앱 답변. answers=[첫인상, 기념일, 좋아하는 특징, 본인의 매력] (비워두면 "아직 답변하지 않았어요.") */
+       couple   : QNA(커플앱) 답변. answers=[첫인상, 기념일, 좋아하는 특징, 본인의 매력] (비워두면 "아직 답변하지 않았어요.") */
     apps: {
       todos: [],
       music: { url: 'https://youtu.be/uZbB9DssRlA?si=RWf6vxUn5QYikIUT', title: '', artist: '', color: '#e0526b' },
@@ -1170,7 +1170,7 @@ const NAMES = {
     ],
     callLog: [],
     camera: '',
-    apps: { todos: [], music: { url: '', title: '', artist: '', color: '#e0526b' }, searches: [], videos: [], photos: [], alarms: [], couple: { answers: ['', '', '', ''] } },
+    apps: { todos: ['17:00 데이트'], music: { url: 'https://youtu.be/rfykBICvtCo?si=cjNnbjijXMkETYKA', title: '', artist: '', color: '#e0526b' }, searches: [], videos: [], photos: [], alarms: [], couple: { answers: ['', '', '', ''] } },
     kakao: { me: { name: '배도애', status: '' }, pay: 0, friends: [], chats: [] },
     messages: []
   },
@@ -1960,7 +1960,7 @@ const ICON_IMG = {};       // 앱 아이콘을 직접 만든 이미지로 바꾸
 const HOME_GRID = [
   ['instagram','인스타그램', false], ['internet','인터넷', true], ['youtube','유튜브', true], ['gallery','갤러리', true],
   ['karrot','당근마켓', false],     ['tetris','테트리스', false], ['bank','은행', false],     ['delivery','배달', false],
-  ['couple','커플', true],         ['maps','지도', true],        ['clock','시계', true],       ['settings','설정', true],
+  ['couple','QNA', true],         ['maps','지도', true],        ['clock','시계', true],       ['settings','설정', true],
 ];
 
 const ICON_ART = {
@@ -2395,7 +2395,7 @@ function renderGallery(box){
 }
 
 /* ====================================================
-   21. 커플앱 (오늘의 질문 → 질문 목록)
+   21. QNA 앱 (오늘의 질문 → 질문 목록)
    ==================================================== */
 const COUPLE_Q = [
   '연인의 첫인상은?',
