@@ -4102,19 +4102,16 @@ function sendK(){
   kk.pending += incoming.length;                 // 남은 답장 수만큼 '입력 중' 표시
   renderKRoom();
 
-  const seen = new Set();
   incoming.forEach((m, n) => setTimeout(() => {
     kk.pending = Math.max(0, kk.pending - 1);
     const viewing = kk.openIdx === kk.chats.indexOf(t) &&
                     !$('kakaoApp').classList.contains('hidden') && $('k-room').classList.contains('on');
-    t.msgs.push({ from: 'them', who: m.who, text: m.text, ts: new Date(), read: viewing, unreadBy: m.unreadBy || 0 });
-    if (t.showReaders){                               // 답이 올 때마다 내 메시지의 안 읽은 사람이 1명씩 줄어듦 (byPeople: 답한 '사람' 수만큼만)
-      const key = m.who || t.name;
-      if (!t.byPeople || !seen.has(key)){
-        seen.add(key);
-        const mine = t.msgs.filter(x => x.from === 'me' && x.unreadBy > 0).pop();
-        if (mine) mine.unreadBy--;
-      }
+    const nm = { from: 'them', who: m.who, text: m.text, ts: new Date(), read: viewing, unreadBy: t.byPeople && t.count ? Math.max(0, t.count - 2) : (m.unreadBy || 0) };
+    t.msgs.push(nm);
+    if (t.byPeople) seenBy(t, m.who || t.name, nm);   // 서로 다른 사람이 답할 때마다 앞선 메시지들의 안 읽은 수가 같이 줄어듦
+    else if (t.showReaders){                          // 답이 올 때마다 내 메시지의 안 읽은 사람이 1명씩 줄어듦
+      const mine = t.msgs.filter(x => x.from === 'me' && x.unreadBy > 0).pop();
+      if (mine) mine.unreadBy--;
     }
     updateKakaoBadge();
     if (!viewing) notify('kakao', t.name, (m.who ? m.who + ' : ' : '') + m.text, () => { show('kakaoApp'); kakaoTab('k-chats'); openKRoom(kk.chats.indexOf(t)); });
@@ -4123,12 +4120,26 @@ function sendK(){
   }, REPLY_MS + n * 1300));
 }
 
+/* byPeople 단톡방: who 가 말하면 그 앞의 메시지(내 것 포함)에서 '아직 안 읽은 사람'이 1명 줄어듦 (같은 사람은 한 번만, 자기 메시지는 제외) */
+function seenBy(t, who, except){
+  t.msgs.forEach(x => {
+    if (x === except || !(x.unreadBy > 0)) return;
+    const author = x.from === 'me' ? '\u0000me' : (x.who || t.name);
+    if (author === who) return;
+    x.readers = x.readers || new Set();
+    if (x.readers.has(who)) return;
+    x.readers.add(who); x.unreadBy--;
+  });
+}
+
 /* 답장이 끝나면 초대되는 단톡방: inviteAfter 에 방 이름을 적고 inviteMsgs 에 도착할 메시지들 */
 function runInvites(src){
   kk.chats.filter(c => c.inviteAfter === src.name && !c.invited).forEach(c => {
     c.invited = true;
     c.inviteMsgs.forEach((m, i) => timedHandles.push(setTimeout(() => {
-      c.msgs.push({ from: 'them', who: m.who, text: m.text, ts: new Date(), read: false, unreadBy: m.unreadBy || 0 });
+      const nm = { from: 'them', who: m.who, text: m.text, ts: new Date(), read: false, unreadBy: c.byPeople && c.count ? Math.max(0, c.count - 2) : (m.unreadBy || 0) };
+      c.msgs.push(nm);
+      if (c.byPeople) seenBy(c, m.who, nm);
       updateKakaoBadge(); renderKakaoChats();
       notify('kakao', c.name, m.who + ' : ' + m.text, () => { show('kakaoApp'); kakaoTab('k-chats'); openKRoom(kk.chats.indexOf(c)); });
     }, 2500 + i * 1500)));
