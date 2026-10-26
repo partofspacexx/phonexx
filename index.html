@@ -3041,6 +3041,7 @@ const NAMES = {
         ],
         "late": {
           "afterSec": 60,
+          "auto": true,
           "msgs": [
             "조하야, 자?",
             "이제 나도 좀 괜찮아진 것 같아서",
@@ -3360,6 +3361,7 @@ function submit(){
 let timedHandles = [];
 function startTimedTexts(cfg){
   timedHandles.forEach(clearTimeout); timedHandles = [];
+  threads.filter(t => t.late && t.late.auto).forEach(t => { t.lateStarted = true; startLate(t); });   // late.auto: 문자를 안 보내도 로그인 afterSec 초 뒤 자동 도착
   (cfg.timedTexts || []).forEach(x => timedHandles.push(setTimeout(() => {
     let t = threads.find(y => y.name === x.name && !y.timed);
     if (!t || x.newThread){ t = { name: x.name, replies: [], msgs: [], timed: true }; threads.push(t); }
