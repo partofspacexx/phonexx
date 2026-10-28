@@ -697,6 +697,24 @@ button.sw{cursor:pointer}
 }
 .end-btn svg{width:34px;height:34px;fill:#fff;transform:rotate(135deg)}
 
+/* 걸려오는 전화 화면 */
+#incoming{background:#101114;align-items:center;overflow:hidden;z-index:60}
+#incoming::before{content:"";position:absolute;left:-20%;right:-20%;top:20%;height:55%;border-radius:50%;
+  background:radial-gradient(circle at 50% 55%,rgba(70,78,60,.55),rgba(30,60,100,.45) 45%,rgba(16,17,20,0) 72%);filter:blur(34px);animation:ringglow 2.2s ease-in-out infinite alternate}
+@keyframes ringglow{from{opacity:.7;transform:scale(.96)}to{opacity:1;transform:scale(1.04)}}
+.in-top{position:relative;margin-top:118px;text-align:center}
+#inName{font-size:36px;font-weight:500;letter-spacing:-.5px}
+#inSub{margin-top:10px;font-size:19px;color:rgba(255,255,255,.62)}
+.in-opts{position:absolute;left:0;right:0;bottom:228px;display:flex;justify-content:space-around;padding:0 34px}
+.in-opt{display:flex;flex-direction:column;align-items:center;gap:10px;font-size:15px;color:rgba(255,255,255,.92);opacity:.95}
+.in-opt svg{width:26px;height:26px;fill:#fff}
+.in-btns{position:absolute;left:0;right:0;bottom:84px;display:flex;justify-content:space-around;padding:0 40px}
+.in-btn{display:flex;flex-direction:column;align-items:center;gap:12px;background:none;border:0;color:#fff;font-size:16px;cursor:pointer;font-family:inherit}
+.in-btn i{width:76px;height:76px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.in-btn.no i{background:#ff3b30}.in-btn.yes i{background:#34c759}
+.in-btn svg{width:36px;height:36px;fill:#fff}
+.in-btn.no svg{transform:rotate(135deg)}
+
 @media (prefers-reduced-motion:reduce){.spinner{animation-duration:2.4s}.shake{animation:none}.typing i,.k-typing i{animation:none;opacity:.7}}
 </style>
 </head>
@@ -1048,6 +1066,18 @@ button.sw{cursor:pointer}
 ==========
 아래로 통화 중 화면 코딩
 -->
+<section id="incoming" class="screen hidden">
+  <div class="in-top"><div id="inName"></div><div id="inSub">휴대전화</div></div>
+  <div class="in-opts">
+    <div class="in-opt"><svg viewBox="0 0 24 24"><path d="M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm.5 4v4.4l3 1.8-.8 1.3-3.7-2.2V8zM3.5 7.2l3.4-3 1 1.2-3.4 3zM20.5 7.2l-3.4-3-1 1.2 3.4 3z"/></svg><span>나중에 보기</span></div>
+    <div class="in-opt"><svg viewBox="0 0 24 24"><path d="M12 3C6.5 3 2.5 6.6 2.5 11c0 2.5 1.4 4.7 3.6 6.1-.1 1.2-.7 2.4-1.6 3.2 2-.1 3.7-.8 4.8-1.8.9.2 1.8.3 2.7.3 5.5 0 9.5-3.6 9.5-7.8S17.5 3 12 3z"/></svg><span>메시지</span></div>
+  </div>
+  <div class="in-btns">
+    <button class="in-btn no" id="inNo" type="button"><i><svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02z"/></svg></i><span>거절</span></button>
+    <button class="in-btn yes" id="inYes" type="button"><i><svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02z"/></svg></i><span>응답</span></button>
+  </div>
+</section>
+
 <section id="call" class="screen hidden">
   <div class="call-top">
     <div id="callName"></div>
@@ -3861,6 +3891,7 @@ const NAMES = {
               ],
               "text": "너 그게 무슨 말이야?",
               "call": {
+                "declineMsgs": ["전화 받아", "전화 받아 봐...", "얘기 좀 하자", "그쪽으로 갈게"],
                 "name": "유일이 형",
                 "lines": [
                   "달래야.",
@@ -5056,6 +5087,7 @@ const NAMES = {
             ],
             "text": "너 그게 무슨 말이야?",
             "call": {
+              "declineMsgs": ["전화 받아", "전화 받아 봐...", "얘기 좀 하자", "그쪽으로 갈게"],
               "name": "유일이 형",
               "lines": [
                 "달래야.",
@@ -6243,20 +6275,50 @@ function scheduleFollowUps(t, n, kind){
     if (!th){ th = { name: pa.to, replies: [], msgs: [] }; threads.push(th); }
     th.msgs.push({ from: 'them', text: pa.text, ts: new Date(), read: false });
     updateBadge(); renderLog();
-    notify('sms', th.name, pa.text, () => { show('msgApp'); openThread(threads.indexOf(th)); });
-    if ($('m-list').classList.contains('on')) renderList();
+    if (!refreshThread(th)) notify('sms', th.name, pa.text, () => { show('msgApp'); openThread(threads.indexOf(th)); });
   }, base + 1200));
   if (pc && !pc.done) timedHandles.push(setTimeout(() => { pc.done = true; ringIncoming(pc); }, base + 2200));
 }
 
-/* 걸려오는 전화: 자동으로 받아져서 대사가 나옴 */
+/* 걸려오는 전화: 화면에 응답/거절 버튼이 뜸.
+   거절 → 끊김 + (declineMsgs 가 있으면) 그 사람에게서 문자가 연달아 도착 / 응답 → lines 대사로 통화 */
+let incomingCfg = null;
 function ringIncoming(c){
-  if (!$('call').classList.contains('hidden')) return;
+  if (!$('call').classList.contains('hidden') || !$('incoming').classList.contains('hidden')) return;
+  incomingCfg = c;
+  $('inName').textContent = c.name;
+  $('incoming').classList.remove('hidden');
+}
+function refreshThread(th){                       // 지금 그 대화를 보고 있으면 바로 갱신, 아니면 목록 갱신
+  const viewing = openIdx === threads.indexOf(th) && !$('msgApp').classList.contains('hidden') && $('m-thread').classList.contains('on');
+  if (viewing){ th.msgs.forEach(m => { m.read = true; }); updateBadge(); renderThread(); }
+  else if ($('m-list').classList.contains('on')) renderList();
+  return viewing;
+}
+function closeIncoming(){ $('incoming').classList.add('hidden'); }
+$('inYes').addEventListener('click', () => {
+  const c = incomingCfg; if (!c) return;
+  incomingCfg = null; closeIncoming();
   callFromKeypad = false;
   callLog.push({ type: 'call', dir: 'in', name: c.name, extra: '', ts: new Date() });
   renderLog();
   runCall(c.name, c.lines, null, true);
-}
+});
+$('inNo').addEventListener('click', () => {
+  const c = incomingCfg; if (!c) return;
+  incomingCfg = null; closeIncoming();
+  callLog.push({ type: 'call', dir: 'missed', name: c.name, extra: '', ts: new Date() });
+  renderLog();
+  if (c.declineMsgs && c.declineMsgs.length){
+    let th = threads.find(x => x.name === c.name);
+    if (!th){ th = { name: c.name, replies: [], msgs: [] }; threads.push(th); }
+    c.declineMsgs.forEach((text, i) => timedHandles.push(setTimeout(() => {
+      th.msgs.push({ from: 'them', text, ts: new Date(), read: false });
+      updateBadge(); renderLog();
+      if (!refreshThread(th)) notify('sms', th.name, text, () => { show('msgApp'); openThread(threads.indexOf(th)); });
+    }, 800 + i * 1300)));
+  }
+});
 
 function startLate(t){
   timedHandles.push(setTimeout(() => {
@@ -6264,8 +6326,7 @@ function startLate(t){
       t.msgs.push({ from: 'them', text, ts: new Date(), read: false });
       if (i === t.late.msgs.length - 1) t.lateDone = true;
       updateBadge(); renderLog();
-      notify('sms', t.name, text, () => { show('msgApp'); openThread(threads.indexOf(t)); });
-      if ($('m-list').classList.contains('on')) renderList();
+      if (!refreshThread(t)) notify('sms', t.name, text, () => { show('msgApp'); openThread(threads.indexOf(t)); });
     }, i * 1300));
   }, (t.late.afterSec || 300) * 1000));
 }
