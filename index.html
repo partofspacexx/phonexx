@@ -3296,7 +3296,7 @@ const NAMES = {
   /* 이진달래 (xlsx 시트 기반 자동 생성) */
   '이진달래': {
     "battery": 61,
-    "wallpaper": "#000",
+    "wallpaper": "url(images/dalrae_wall.jpg) center/cover, #000",
     "text": "",
     "contacts": [
       {
@@ -3539,7 +3539,7 @@ const NAMES = {
         "형한테 전화 걸기"
       ],
       "music": {
-        "url": "https://youtu.be/sYBgwD6nzyk?si=J59_7uaE9izNCr7W",
+        "url": "https://youtu.be/cNFs-FRrdJg?si=o7SK5AxNaoCc4qxR",
         "title": "",
         "artist": "",
         "color": "#e0526b"
@@ -3563,7 +3563,8 @@ const NAMES = {
           "url": "https://youtu.be/iY2vAYaslEA?si=7VZbQM3IDdC_H9cU",
           "meta": "",
           "progress": 0.5
-        }
+        },
+        { "url": "https://youtu.be/gQt9MvQfvCU?si=4IX1b05gVD6qEmhs", "meta": "", "progress": 0.2 }
       ],
       "photos": [],
       "alarms": [
@@ -3891,6 +3892,7 @@ const NAMES = {
               ],
               "text": "너 그게 무슨 말이야?",
               "call": {
+                "redial": true,
                 "declineMsgs": ["전화 받아", "전화 받아 봐...", "얘기 좀 하자", "그쪽으로 갈게"],
                 "name": "유일이 형",
                 "lines": [
@@ -5087,6 +5089,7 @@ const NAMES = {
             ],
             "text": "너 그게 무슨 말이야?",
             "call": {
+              "redial": true,
               "declineMsgs": ["전화 받아", "전화 받아 봐...", "얘기 좀 하자", "그쪽으로 갈게"],
               "name": "유일이 형",
               "lines": [
@@ -6317,6 +6320,7 @@ $('inNo').addEventListener('click', () => {
       updateBadge(); renderLog();
       if (!refreshThread(th)) notify('sms', th.name, text, () => { show('msgApp'); openThread(threads.indexOf(th)); });
     }, 800 + i * 1300)));
+    if (c.redial) timedHandles.push(setTimeout(() => ringIncoming({ name: c.name, lines: c.lines }), 800 + (c.declineMsgs.length - 1) * 1300 + 2200));   // redial: 마지막 문자가 온 뒤 같은 전화가 한 번 더 걸려옴
   }
 });
 
@@ -6741,9 +6745,12 @@ function sendK(){
     const nm = { from: 'them', who: m.who, text: m.text, ts: new Date(), read: viewing, unreadBy: t.byPeople && t.count ? Math.max(0, t.count - 2) : (m.unreadBy || 0) };
     t.msgs.push(nm);
     if (t.byPeople) seenBy(t, m.who || t.name, nm);   // 서로 다른 사람이 답할 때마다 앞선 메시지들의 안 읽은 수가 같이 줄어듦
-    else if (t.showReaders){                          // 답이 올 때마다 내 메시지의 안 읽은 사람이 1명씩 줄어듦
-      const mine = t.msgs.filter(x => x.from === 'me' && x.unreadBy > 0).pop();
-      if (mine) mine.unreadBy--;
+    else if (t.showReaders){
+      if (!t.count || t.count <= 2) t.msgs.forEach(x => { if (x.from === 'me') x.unreadBy = 0; });   // 1:1 방: 답이 오면 그 전에 보낸 내 메시지 숫자(1)가 전부 사라짐
+      else {                                          // 단톡방: 답이 올 때마다 내 메시지의 안 읽은 사람이 1명씩 줄어듦
+        const mine = t.msgs.filter(x => x.from === 'me' && x.unreadBy > 0).pop();
+        if (mine) mine.unreadBy--;
+      }
     }
     updateKakaoBadge();
     if (!viewing) notify('kakao', t.name, (m.who ? m.who + ' : ' : '') + m.text, () => { show('kakaoApp'); kakaoTab('k-chats'); openKRoom(kk.chats.indexOf(t)); });
