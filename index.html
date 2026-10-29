@@ -40,6 +40,9 @@ button{font-family:inherit;color:inherit}
   transform:translate(-50%,-50%) scale(var(--s,1));
 }
 .screen{position:absolute;inset:0;display:flex;flex-direction:column}
+/* 화면 깨짐(세로줄): NAMES 의 screenDamage 가 있으면 로그인 후 모든 화면 위에 표시 */
+#dmg{position:absolute;inset:0;z-index:9999;pointer-events:none;overflow:hidden;border-radius:inherit}
+#dmg i{position:absolute;top:0;bottom:0;opacity:.92;box-shadow:0 0 2px currentColor}
 .screen.hidden{display:none}
 svg{display:block}
 
@@ -612,6 +615,10 @@ svg{display:block}
 .gl-p{aspect-ratio:1;background:#2f6fe4 center/cover no-repeat}
 
 /* QNA 앱 */
+.cp-pop{position:absolute;inset:0;z-index:30;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center}
+.cp-popbox{width:280px;background:#fff;border-radius:20px;padding:26px 22px 18px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.cp-popt{font-size:17px;font-weight:700;line-height:1.55;color:#222;white-space:pre-line}
+.cp-popok{margin-top:20px;width:100%;padding:13px;border:0;border-radius:14px;background:var(--acc);color:#fff;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer}
 .cp-intro{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;font-size:21px;font-weight:700;color:#d6336c;padding-bottom:60px}
 .cp-spin{width:40px;height:40px;border-radius:50%;border:4px solid #ffd0e1;border-top-color:var(--acc);animation:spin .9s linear infinite}
 .cp-h{font-size:24px;font-weight:800;padding:10px 20px 14px;color:#d6336c}
@@ -5856,6 +5863,1232 @@ const NAMES = {
       }
     ]
   },
+  /* 캔자스 (이진달래 x 공유일 7년 후 if 버전) */ '캔자스': {
+    "battery": 16,
+    "wallpaper": "linear-gradient(180deg,#07121c 0%,#12304a 55%,#2b5b7a 100%)",
+    "text": "",
+    "screenDamage": true,
+    "contacts": [
+      {
+        "name": "유일이 형",
+        "number": "",
+        "favorite": true,
+        "call": [
+          [
+            "전원이 꺼져 있어 삐 소리 이후 통화료가 부과됩니다.",
+            "삐—"
+          ]
+        ]
+      },
+      {
+        "name": "남찬서",
+        "number": "",
+        "favorite": false,
+        "call": [
+          [
+            "여보세요? 누구?",
+            "네? 모르는데요?",
+            "아닌데요. 번호 주인 바뀌었어요.",
+            "네."
+          ],
+          null
+        ]
+      },
+      {
+        "name": "도윤이 형",
+        "number": "",
+        "favorite": false,
+        "call": [
+          [
+            "어. 웬일이냐.",
+            "...",
+            "또 도와달라는 건 아니지.",
+            "아니면 됐고. 형은 잘 있냐.",
+            "...잘 지내라. 끊는다."
+          ],
+          [
+            "또 왜.",
+            "말을 해, 말을.",
+            "혼자 뭐 좀 하지 마.",
+            "필요하면 말하고. 끊는다."
+          ],
+          null
+        ]
+      },
+      {
+        "name": "이아연",
+        "number": "",
+        "favorite": false,
+        "call": [
+          [
+            "어, 진달래. 갑자기 또 웬일이래.",
+            "나 지금 샵에 손님 와서 바빠.",
+            "남편 생일 내일이라며. 케이크는 샀냐?",
+            "...꼴이 그게 뭐냐 진짜. 잘 챙겨 먹고 다녀라."
+          ],
+          [
+            "또? 야 나 바쁘다니까.",
+            "서핑이나 하러 와. 니네 형이랑 같이.",
+            "끊는다~."
+          ],
+          [
+            "어, 진달래. 앨범은 잘 받았냐.",
+            "그걸 왜 갑자기 찾나 했다.",
+            "별걸 다 챙긴다, 너.",
+            "잘 살아라. 끊자."
+          ],
+          null
+        ]
+      },
+      {
+        "name": "도아 민박 사장님",
+        "number": "",
+        "favorite": false,
+        "call": [
+          [
+            "네, 도아 민박입니다.",
+            "아, 달래 씨~. 유일 씨는 지금 바다 나갔어요.",
+            "들어오면 나가 보라고 할게요.",
+            "내일 저녁까진 우리 직원 보내주는 거 알죠?"
+          ],
+          [
+            "네~ 달래 씨.",
+            "아직 안 들어왔어요. 조금만 기다려 봐요."
+          ],
+          null
+        ],
+        "afterCall": {
+          "count": 2,
+          "delaySec": 60,
+          "msgs": [
+            "달래 씨~ 유일 씨 들어왔어요. 주차장으로 나가 보라고 했어요.^^"
+          ]
+        }
+      },
+      {
+        "name": "아빠",
+        "number": "",
+        "favorite": false,
+        "call": [
+          [
+            "...무슨 일이니.",
+            "...",
+            "그러니.",
+            "끊으마."
+          ],
+          null
+        ]
+      },
+      {
+        "name": "유리",
+        "number": "",
+        "favorite": false
+      },
+      {
+        "name": "어머니",
+        "number": "",
+        "favorite": false,
+        "call": [
+          [
+            "여보세요.",
+            "왜 연락했니?",
+            "내가 들어서 될 문제니, 그게?"
+          ],
+          null
+        ]
+      },
+      {
+        "name": "아버지",
+        "number": "",
+        "favorite": false,
+        "call": [
+          [
+            "그래.",
+            "찾았다고.",
+            "그래, 잘됐네."
+          ],
+          null
+        ]
+      },
+      {
+        "name": "이민들레",
+        "number": "",
+        "favorite": false,
+        "call": [
+          [
+            "누구세요?",
+            "아.",
+            "어, 목소리 간만에 듣네.",
+            "고생해라."
+          ],
+          null
+        ]
+      },
+      {
+        "name": "코치님",
+        "number": "",
+        "favorite": false,
+        "call": [
+          [
+            "어, 달래야.",
+            "운동은 계속하고 있냐.",
+            "너 아직 안 늦었어. 마음 바뀌면 연락해라."
+          ],
+          null
+        ]
+      },
+      {
+        "name": "허구영",
+        "number": "",
+        "favorite": false,
+        "call": [
+          [
+            "...",
+            "오랜만이네.",
+            "얘기 듣긴 했는데.",
+            "너 진짜 헛짓거리 그만해.",
+            "이건 형 동생으로서 하는 말이야."
+          ],
+          null
+        ]
+      }
+    ],
+    "callLog": [
+      {
+        "name": "유일이 형",
+        "dir": "in",
+        "at": "3/4 03:52",
+        "dur": "1분"
+      },
+      {
+        "name": "도윤이 형",
+        "dir": "out",
+        "at": "3/4 04:20",
+        "dur": "1분"
+      },
+      {
+        "name": "도윤이 형",
+        "dir": "in",
+        "at": "3/11 09:41",
+        "dur": "1분"
+      },
+      {
+        "name": "유일이 형",
+        "dir": "noanswer",
+        "at": "3/27 00:50"
+      },
+      {
+        "name": "유일이 형",
+        "dir": "noanswer",
+        "at": "3/27 00:52"
+      },
+      {
+        "name": "유일이 형",
+        "dir": "noanswer",
+        "at": "3/27 01:30"
+      },
+      {
+        "name": "아빠",
+        "dir": "out",
+        "at": "3/27 03:15",
+        "dur": "1분"
+      },
+      {
+        "name": "유일이 형",
+        "dir": "noanswer",
+        "at": "4/3 17:20"
+      },
+      {
+        "name": "이아연",
+        "dir": "in",
+        "at": "5/12 11:58",
+        "dur": "2분"
+      },
+      {
+        "name": "제주시 자동차극장",
+        "dir": "out",
+        "at": "5/29 13:05",
+        "dur": "4분"
+      },
+      {
+        "name": "도아 민박 사장님",
+        "dir": "out",
+        "at": "5/31 18:30",
+        "dur": "1분"
+      }
+    ],
+    "logMessages": false,
+    "camera": "",
+    "apps": {
+      "todos": [
+        "22:15 제주시 자동차극장 (대관)",
+        "케이크 (제주 말차)",
+        "사진첩 · 메달 · 첫 대본",
+        "담배 끊기"
+      ],
+      "music": {
+        "url": "",
+        "title": "Over the Rainbow",
+        "artist": "Judy Garland",
+        "color": "#e0b13a"
+      },
+      "searches": [
+        "금연 방법",
+        "제주 자동차극장 대관",
+        "제주 케이크 추천",
+        "오션뷰 없는 숙소",
+        "렌터카 반납 기간 연장",
+        "ㄱㅇㅇ 근황",
+        "공유일 근황",
+        "공유일 작품",
+        "공유일"
+      ],
+      "videos": [
+        {
+          "title": "Over the Rainbow - Judy Garland",
+          "channel": "",
+          "meta": "",
+          "length": "2:44",
+          "color": "#e0b13a",
+          "progress": 1
+        },
+        {
+          "title": "The Wizard of Oz (1939) - Dorothy Opens the Door",
+          "channel": "",
+          "meta": "",
+          "length": "1:12",
+          "color": "#d9a21b",
+          "progress": 1
+        },
+        {
+          "title": "John Lennon - Imagine",
+          "channel": "",
+          "meta": "",
+          "length": "3:03",
+          "color": "#6f8fb0",
+          "progress": 0.3
+        }
+      ],
+      "photos": [
+        {
+          "color": "#8fc9a8"
+        },
+        {
+          "color": "#c9b58f"
+        },
+        {
+          "color": "#d9a3a3"
+        },
+        {
+          "color": "#e8d27a"
+        },
+        {
+          "color": "#7fa6c9"
+        },
+        {
+          "color": "#e49aa8"
+        },
+        {
+          "color": "#1d3a52"
+        },
+        {
+          "color": "#8a8f98"
+        }
+      ],
+      "alarms": [
+        {
+          "time": "06:30",
+          "label": "수영",
+          "on": false
+        },
+        {
+          "time": "08:00",
+          "label": "알람",
+          "on": false
+        },
+        {
+          "time": "23:57",
+          "label": "형 생일 3분 전",
+          "on": true
+        }
+      ],
+      "couple": {
+        "startNo": 97,
+        "questions": [
+          "연인을 향한 프러포즈 계획은?",
+          "연인과 휴일에 함께하고 싶은 것은?",
+          "연인과 싸웠을 때 화해 방법은?",
+          "지금 당장 연인과 하고 싶은 한 가지는?"
+        ],
+        "answers": [
+          "반지부터 사야죠. 제일 좋은 걸로 사줄 거예요.",
+          "이제 잘 모르겠어요. 하고 싶은 건 많은데 할 수 있는 게 없어요.",
+          "형 이거 아직 보고 있어요? 이제 그만 저 좀 용서해 주세요.",
+          ""
+        ],
+        "welcome": "오랜만에 오셨네요, 이진달래 님!\n돌아오신 걸 환영해요!"
+      },
+      "news": {
+        "1": {
+          "title": "[집중 취재] 이진달래-공유일 제주 목격담?",
+          "body": "은퇴 후 소식이 없던 금메달리스트 이진달래와 작품 활동이 끊겼던 배우 공유일의 소식이 제주도에서 전해졌다. 제보자에 따르면, 두 사람 사이 기류가 심상치 않았으며 ‘연애-결별설’을 의심해 볼 수 있다고. 공유일은 지난 24년 드라마 ‘비밀’을 기점으로 작품 활동을 잠정 중단한 상태다.",
+          "comments": [
+            [
+              "물장구",
+              "공유일 연애할 줄 알았다 ㅋㅋ 근데 상대가 이진달래라고??",
+              "3시간 전",
+              412
+            ],
+            [
+              "오늘도맑음",
+              "이진달래? 옛날에 그 이진달래? 금메달 딴 그분?",
+              "3시간 전",
+              388
+            ],
+            [
+              "별빛산책",
+              "둘이 사귄다고?? 접점이 뭐였지",
+              "3시간 전",
+              301
+            ],
+            [
+              "하늘구름",
+              "나도 본 것 같음 애월 쪽에서 둘이 차 타고 가는 거",
+              "2시간 전",
+              276
+            ],
+            [
+              "민트초코러버",
+              "헐 요새 소식 안 들려서 뭐 하나 했음 제주에 있었네",
+              "2시간 전",
+              254
+            ],
+            [
+              "봄날의곰",
+              "공유일 작품 안 한 지 한참인데 제주에서 이러고 있었구나",
+              "2시간 전",
+              219
+            ],
+            [
+              "달콤한오후",
+              "이진달래 은퇴하고 완전 잠수 탔었잖아 소식 반갑다",
+              "2시간 전",
+              187
+            ],
+            [
+              "푸른바다",
+              "연애설이 아니라 결별설 의심이라니 기사 제목부터 불안하네",
+              "2시간 전",
+              164
+            ],
+            [
+              "소소한행복",
+              "제보자 누구냐 기류가 심상치 않았다는 건 뭔데",
+              "1시간 전",
+              151
+            ],
+            [
+              "여름밤",
+              "공유일 연애할 줄 알았다고 한 사람 나야 나",
+              "1시간 전",
+              133
+            ],
+            [
+              "초록잎사귀",
+              "이진달래가 누구야? 수영선수? 나만 몰라?",
+              "1시간 전",
+              122
+            ],
+            [
+              "아침이슬",
+              "수영선수 이진달래 맞음. 올림픽 금메달리스트",
+              "1시간 전",
+              118
+            ],
+            [
+              "웃음벨",
+              "둘이 사귄다고?? 진짜면 대박인데 일단 공식 입장 기다려야지",
+              "1시간 전",
+              97
+            ],
+            [
+              "응원단장",
+              "어느 쪽이든 두 분 다 행복했으면 좋겠다",
+              "58분 전",
+              91
+            ],
+            [
+              "바람과파도",
+              "나도 본 것 같음 협재 쪽 카페에서 둘이 앉아 있었는데",
+              "47분 전",
+              84
+            ],
+            [
+              "오렌지주스",
+              "헐 요새 소식 안 들려서 뭐 하나 했음 작품 활동 쉰다더니",
+              "41분 전",
+              73
+            ],
+            [
+              "고요한밤",
+              "공유일 비밀 이후로 작품 없어서 걱정했는데 소식 들려서 다행",
+              "33분 전",
+              66
+            ],
+            [
+              "감귤나무",
+              "이진달래 은퇴 때 진짜 아쉬웠는데 잘 지내고 있다니 다행이다",
+              "25분 전",
+              52
+            ],
+            [
+              "노을지는창가",
+              "결별설은 좀 너무 앞서간 거 아닌가 일단 목격담일 뿐인데",
+              "14분 전",
+              47
+            ],
+            [
+              "새벽두시",
+              "사실이든 아니든 개인사니까 너무 캐지 말자",
+              "6분 전",
+              35
+            ]
+          ]
+        }
+      }
+    },
+    "kakaoTimed": [
+      {
+        "afterSec": 90,
+        "name": "이아연",
+        "msgs": [
+          "야 네 남편 생일 내일 맞지?",
+          "케이크는 샀냐"
+        ]
+      }
+    ],
+    "timedTexts": [],
+    "messages": [
+      {
+        "name": "도아 민박 사장님",
+        "msgs": [
+          {
+            "from": "them",
+            "text": "달래 씨, 방은 일주일 단위로 계산해도 괜찮아요.^^",
+            "at": "5/02 11:20"
+          },
+          {
+            "from": "me",
+            "text": "네 감사합니다",
+            "at": "5/02 11:21"
+          },
+          {
+            "from": "me",
+            "text": "사장님 오늘 장보러 가야 하는데 차 좀 빌려도 될까요?",
+            "at": "5/10 10:02"
+          },
+          {
+            "from": "them",
+            "text": "열쇠 사무실에 있어요. 기름은 채워서 줘요.^^",
+            "at": "5/10 10:04"
+          },
+          {
+            "from": "me",
+            "text": "사장님 내일이 형 생일이라서 오늘 형 좀 오래 빌릴게요",
+            "at": "5/31 18:42"
+          },
+          {
+            "from": "them",
+            "text": "그건 또 몰랐네. 마음 편히 놀다 와요.",
+            "at": "5/31 18:44"
+          },
+          {
+            "from": "them",
+            "text": "대신 내일 저녁까진 우리 직원 보내주는 겁니다. 우리도 축하는 해야지.^^",
+            "at": "5/31 18:44"
+          }
+        ],
+        "replies": [
+          {
+            "keys": [
+              "생일",
+              "케이크"
+            ],
+            "text": "아유 좋겠다~ 잘 보내고 와요.^^"
+          }
+        ],
+        "fallback": "네~ 달래 씨.^^"
+      },
+      {
+        "name": "제주시 자동차극장",
+        "msgs": [
+          {
+            "from": "me",
+            "text": "안녕하세요 5월 31일 밤에 전체 대관 가능한가요?",
+            "at": "5/29 12:40"
+          },
+          {
+            "from": "them",
+            "text": "[제주시 자동차극장] 문의 감사합니다. 전체 대관은 프러포즈 이벤트 목적에 한해 가능합니다.",
+            "at": "5/29 12:48"
+          },
+          {
+            "from": "me",
+            "text": "네 프러포즈 맞아요",
+            "at": "5/29 12:50"
+          },
+          {
+            "from": "me",
+            "text": "22시 15분에 오즈의 마법사 가능할까요?",
+            "at": "5/29 12:50"
+          },
+          {
+            "from": "them",
+            "text": "[제주시 자동차극장] 5/31(일) 22:15 오즈의 마법사(1939) 대관 접수되었습니다. 대관료 입금 후 확정됩니다.",
+            "at": "5/29 13:02"
+          },
+          {
+            "from": "them",
+            "text": "[제주시 자동차극장] 대관료 입금 확인되었습니다. 5/31 22:15 A구역 입장 / 차량번호를 알려주세요.",
+            "at": "5/30 16:12"
+          }
+        ],
+        "fallback": "[제주시 자동차극장] 해당 번호는 현재 문자 수신이 어렵습니다. 전화 문의 부탁드립니다."
+      },
+      {
+        "name": "이아연",
+        "msgs": [
+          {
+            "from": "me",
+            "text": "형 어렸을 때 사진 모아둔 거 아직 있다고 했죠?",
+            "at": "5/06 21:10"
+          },
+          {
+            "from": "them",
+            "text": "그거 찾는 데 한참 걸렸다",
+            "at": "5/06 21:35"
+          },
+          {
+            "from": "them",
+            "text": "택배로 부칠게",
+            "at": "5/06 21:35"
+          },
+          {
+            "from": "them",
+            "text": "주소 불러라",
+            "at": "5/06 21:35"
+          },
+          {
+            "from": "them",
+            "text": "도착했냐",
+            "at": "5/13 18:02"
+          },
+          {
+            "from": "me",
+            "text": "네 잘 받았어요 감사합니다",
+            "at": "5/13 18:20"
+          },
+          {
+            "from": "them",
+            "text": "별걸 다 챙긴다ㅋㅋ; 잘 살아라",
+            "at": "5/13 18:21"
+          }
+        ],
+        "fallback": "ㅇㅇ"
+      },
+      {
+        "name": "유리",
+        "msgs": [
+          {
+            "from": "me",
+            "text": "유리 씨 예전 집 벽에 붙어 있던 폴라로이드 아직 가지고 있어요?",
+            "at": "5/09 14:03"
+          },
+          {
+            "from": "them",
+            "text": "ㅇㅇ 있어",
+            "at": "5/09 14:10"
+          },
+          {
+            "from": "me",
+            "text": "제주도로 보내줄 수 있어요?",
+            "at": "5/09 14:11"
+          },
+          {
+            "from": "them",
+            "text": "거긴 왜?",
+            "at": "5/09 14:12"
+          },
+          {
+            "from": "me",
+            "text": "형 생일 선물에 쓰려고요",
+            "at": "5/09 14:13"
+          },
+          {
+            "from": "them",
+            "text": "내일 부칠게",
+            "at": "5/09 14:15"
+          }
+        ],
+        "seq": [
+          "ㅇ",
+          "연락 안 해줬음 좋겠다",
+          "미안"
+        ]
+      },
+      {
+        "name": "대한항공",
+        "msgs": [
+          {
+            "from": "them",
+            "text": "[Web발신][대한항공] 이진달래 님 예약이 완료되었습니다. 여정: 2026-04-03 서울/김포(GMP) → 제주(CJU) 편도",
+            "at": "4/02 22:31"
+          },
+          {
+            "from": "them",
+            "text": "[Web발신][대한항공] 이진달래 님 예약이 완료되었습니다. 여정: 2026-04-17 KE255 제주(CJU) 14:30 → 서울/김포(GMP)",
+            "at": "4/16 03:40"
+          },
+          {
+            "from": "them",
+            "text": "[Web발신][대한항공] KE255편 탑승이 마감되어 미탑승(No-show) 처리되었습니다. 환불·변경은 홈페이지에서 신청해 주세요.",
+            "at": "4/17 14:52"
+          }
+        ],
+        "fallback": "[Web발신] 회신이 불가능한 번호입니다."
+      },
+      {
+        "name": "금사카드",
+        "msgs": [
+          {
+            "from": "them",
+            "text": "[금사카드][승인] 이진달래님 제주 렌터카 286,000원 일시불",
+            "at": "4/03 16:02"
+          },
+          {
+            "from": "them",
+            "text": "[금사카드][승인] 이진달래님 GS25 애월항점 11,500원 일시불",
+            "at": "4/17 23:12"
+          },
+          {
+            "from": "them",
+            "text": "[금사카드][승인] 이진달래님 애월 카페 18,800원 일시불",
+            "at": "5/14 15:48"
+          },
+          {
+            "from": "them",
+            "text": "[금사카드][승인] 이진달래님 애월 카페 딸기라떼 5,800원 일시불",
+            "at": "5/16 14:20"
+          },
+          {
+            "from": "them",
+            "text": "[금사카드][승인] 이진달래님 제주 말차케이크 38,000원 일시불",
+            "at": "5/30 16:02"
+          },
+          {
+            "from": "them",
+            "text": "[금사카드][승인] 이진달래님 제주시 자동차극장 400,000원 일시불",
+            "at": "5/30 16:10"
+          }
+        ],
+        "fallback": "[Web발신] 회신이 불가능한 번호입니다."
+      },
+      {
+        "name": "저장되지 않은 번호",
+        "msgs": [
+          {
+            "from": "them",
+            "text": "[Web발신][휘경대학병원 원무과] 수납이 완료되었습니다. 환자명: 공유일 / 수납일: 2026-03-04",
+            "at": "3/04 06:22"
+          }
+        ]
+      },
+      {
+        "name": "저장되지 않은 번호",
+        "msgs": [
+          {
+            "from": "them",
+            "text": "[Web발신][제주 렌터카] 이진달래 고객님 반납 예정일이 6/30으로 연장되었습니다.",
+            "at": "4/29 10:15"
+          }
+        ]
+      }
+    ],
+    "kakao": {
+      "me": {
+        "name": "이진달래",
+        "status": ""
+      },
+      "pay": 1640,
+      "friends": [
+        {
+          "name": "유일이 형",
+          "favorite": true,
+          "status": ""
+        },
+        {
+          "name": "남찬서",
+          "status": ""
+        },
+        {
+          "name": "도윤이 형",
+          "status": ""
+        },
+        {
+          "name": "이아연",
+          "status": "파도 기다리는 중"
+        },
+        {
+          "name": "유리",
+          "status": ""
+        },
+        {
+          "name": "코치님",
+          "status": "최선을 다해!!"
+        },
+        {
+          "name": "허구영",
+          "status": ""
+        },
+        {
+          "name": "아버지",
+          "status": "근무 중"
+        },
+        {
+          "name": "어머니",
+          "status": ""
+        },
+        {
+          "name": "이민들레",
+          "status": "Let’s go"
+        }
+      ],
+      "chats": [
+        {
+          "name": "유일이 형",
+          "msgs": [
+            {
+              "from": "them",
+              "text": "일찍 자는 거야? 통화하려 했더니",
+              "at": "23/11/14 03:41"
+            },
+            {
+              "from": "them",
+              "text": "형 이제 새벽촬영 나가ㅋㅋ",
+              "at": "23/11/14 03:42"
+            },
+            {
+              "from": "them",
+              "text": "밤낮 다 바뀌겠다 넌 꼭 푹 자고 일어나",
+              "at": "23/11/14 03:42"
+            },
+            {
+              "from": "them",
+              "text": "나 때문에 너까지 생활패턴 망칠라",
+              "at": "23/11/14 03:43"
+            },
+            {
+              "from": "them",
+              "text": "사랑해",
+              "at": "23/11/14 03:43"
+            },
+            {
+              "from": "me",
+              "text": "형 저희 헤어지는 게 좋을 것 같아요",
+              "at": "23/11/14 05:02"
+            },
+            {
+              "from": "me",
+              "text": "헤어져요",
+              "at": "23/11/14 05:32"
+            },
+            {
+              "from": "them",
+              "text": "?",
+              "at": "23/11/14 13:48"
+            },
+            {
+              "from": "them",
+              "text": "이진달래",
+              "at": "23/11/14 13:48"
+            },
+            {
+              "from": "them",
+              "text": "무슨 말이야",
+              "at": "23/11/14 13:49"
+            },
+            {
+              "from": "them",
+              "text": "전화 받아",
+              "at": "23/11/14 13:52"
+            },
+            {
+              "from": "them",
+              "text": "달래야",
+              "at": "23/11/14 13:55"
+            },
+            {
+              "from": "them",
+              "text": "제발 전화 좀 받아봐",
+              "at": "23/11/14 13:56"
+            },
+            {
+              "from": "them",
+              "text": "오늘은 일찍 잘까",
+              "at": "25/03/20 22:48"
+            },
+            {
+              "from": "me",
+              "text": "네 같이 자요",
+              "at": "25/03/20 22:48"
+            },
+            {
+              "from": "them",
+              "text": "응 같이",
+              "at": "25/03/20 22:49"
+            },
+            {
+              "from": "me",
+              "text": "형 오늘 저녁 뭐 먹을래요",
+              "at": "25/07/25 18:20"
+            },
+            {
+              "from": "them",
+              "text": "아무거나 ㅋㅋ",
+              "at": "25/07/25 18:31"
+            },
+            {
+              "from": "them",
+              "text": "네가 정해",
+              "at": "25/07/25 18:31"
+            },
+            {
+              "from": "me",
+              "text": "그럼 형 좋아하는 걸로 할게요",
+              "at": "25/07/25 18:32"
+            },
+            {
+              "from": "me",
+              "text": "형 어디예요",
+              "at": "26/03/26 21:17",
+              "unreadBy": 1
+            },
+            {
+              "from": "me",
+              "text": "형",
+              "at": "26/03/27 00:40",
+              "unreadBy": 1
+            },
+            {
+              "from": "me",
+              "text": "저 집이에요. 천천히 와도 돼요",
+              "at": "26/03/27 02:05",
+              "unreadBy": 1
+            },
+            {
+              "from": "me",
+              "text": "답장만 해주면 안 돼요?",
+              "at": "26/03/28 01:11",
+              "unreadBy": 1
+            },
+            {
+              "from": "me",
+              "text": "보고 싶어요",
+              "at": "26/03/28 01:11",
+              "unreadBy": 1
+            }
+          ]
+        },
+        {
+          "name": "도윤이 형",
+          "msgs": [
+            {
+              "from": "them",
+              "text": "얘기 들었다",
+              "at": "23/11/20 18:43"
+            },
+            {
+              "from": "me",
+              "text": "유일이 형 괜찮아요?",
+              "at": "23/11/20 18:44"
+            },
+            {
+              "from": "them",
+              "text": "진달래 일단",
+              "at": "23/11/20 19:07"
+            },
+            {
+              "from": "them",
+              "text": "그건 네가 직접 알아봐야 할 문제 같은데",
+              "at": "23/11/20 19:07"
+            },
+            {
+              "from": "me",
+              "text": "네 죄송해요",
+              "at": "23/11/20 19:07"
+            },
+            {
+              "from": "them",
+              "text": "나한테 죄송할 건 아니지",
+              "at": "23/11/20 19:07"
+            },
+            {
+              "from": "them",
+              "text": "충분히 쉬었지?",
+              "at": "24/03/11 10:01"
+            },
+            {
+              "from": "me",
+              "text": "형",
+              "at": "24/03/11 10:01"
+            },
+            {
+              "from": "them",
+              "text": "병원 로비로 와라",
+              "at": "24/03/11 10:02"
+            },
+            {
+              "from": "me",
+              "text": "지금 갈게요",
+              "at": "24/03/11 10:02"
+            },
+            {
+              "from": "me",
+              "text": "형",
+              "at": "26/03/27 01:14"
+            },
+            {
+              "from": "me",
+              "text": "유일이 형이 또 없어졌어요",
+              "at": "26/03/27 01:14"
+            },
+            {
+              "from": "them",
+              "text": "너 내가 뭐랬어",
+              "at": "26/03/27 01:40"
+            },
+            {
+              "from": "me",
+              "text": "그냥요 죄송해요",
+              "at": "26/03/27 01:41"
+            },
+            {
+              "from": "me",
+              "text": "형 유일이 형 찾았어요",
+              "at": "26/05/20 20:10"
+            },
+            {
+              "from": "them",
+              "text": "그래서",
+              "at": "26/05/20 20:12"
+            },
+            {
+              "from": "me",
+              "text": "제주도에 있어요",
+              "at": "26/05/20 20:12"
+            },
+            {
+              "from": "me",
+              "text": "같이 있는 중이에요",
+              "at": "26/05/20 20:12"
+            },
+            {
+              "from": "them",
+              "text": "그래",
+              "at": "26/05/20 20:15"
+            },
+            {
+              "from": "them",
+              "text": "알아서 네가 잘해 이제",
+              "at": "26/05/20 20:15"
+            }
+          ],
+          "replies": [
+            {
+              "keys": [
+                "생일"
+              ],
+              "text": "내일이냐"
+            },
+            {
+              "keys": [
+                "유일",
+                "공유일"
+              ],
+              "text": "그래서 형은 어떤데"
+            }
+          ],
+          "fallback": [
+            "ㅇㅇ",
+            "왜",
+            "밥은 먹었냐"
+          ]
+        },
+        {
+          "name": "허구영",
+          "msgs": [
+            {
+              "from": "them",
+              "text": "좆같은 새끼",
+              "at": "23/11/19 22:01"
+            },
+            {
+              "from": "them",
+              "text": "다신 연락하지 마",
+              "at": "23/11/19 22:01"
+            },
+            {
+              "from": "me",
+              "text": "형도 아무것도 모르잖아요",
+              "at": "23/11/19 22:03"
+            },
+            {
+              "from": "me",
+              "text": "유일이 형이랑 같이 있어요?",
+              "at": "23/11/19 22:03",
+              "unreadBy": 1
+            }
+          ]
+        },
+        {
+          "name": "이아연",
+          "msgs": [
+            {
+              "from": "them",
+              "text": "야 제주에 와 있다며",
+              "at": "26/05/12 12:03"
+            },
+            {
+              "from": "them",
+              "text": "소문 다 났다",
+              "at": "26/05/12 12:03"
+            },
+            {
+              "from": "me",
+              "text": "네 이번 주에 볼 수 있어요?",
+              "at": "26/05/12 12:05"
+            },
+            {
+              "from": "them",
+              "text": "모레 3시 애월 쪽 카페 어때",
+              "at": "26/05/12 12:06"
+            },
+            {
+              "from": "me",
+              "text": "좋아요",
+              "at": "26/05/12 12:06"
+            },
+            {
+              "from": "them",
+              "text": "도착 ㅇㅇ 창가 자리",
+              "at": "26/05/14 15:02"
+            },
+            {
+              "from": "me",
+              "text": "저도 도착했어요",
+              "at": "26/05/14 15:02"
+            },
+            {
+              "from": "them",
+              "text": "케이크 내 거까지 먹은 거 기억해라",
+              "at": "26/05/14 16:40"
+            },
+            {
+              "from": "me",
+              "text": "조사예요 조사",
+              "at": "26/05/14 16:41"
+            }
+          ],
+          "replies": [
+            {
+              "keys": [
+                "서핑"
+              ],
+              "text": "와라 샵으로. 형도 데리고"
+            },
+            {
+              "keys": [
+                "케이크"
+              ],
+              "text": "케이크는 결국 뭐 샀냐"
+            }
+          ],
+          "fallback": [
+            "ㅋㅋㅋ",
+            "나 지금 바쁨",
+            "서핑 하러 오라니까"
+          ]
+        },
+        {
+          "name": "코치님",
+          "msgs": [
+            {
+              "from": "them",
+              "text": "은퇴 기사 봤다.",
+              "at": "25/11/20 09:12"
+            },
+            {
+              "from": "them",
+              "text": "한 번 보자.",
+              "at": "25/11/20 09:12"
+            },
+            {
+              "from": "me",
+              "text": "죄송합니다 코치님",
+              "at": "25/11/20 09:30"
+            },
+            {
+              "from": "them",
+              "text": "사과할 일은 아니고..",
+              "at": "25/11/20 09:31"
+            },
+            {
+              "from": "them",
+              "text": "후회 없는 거지?",
+              "at": "25/11/20 09:31"
+            },
+            {
+              "from": "me",
+              "text": "네",
+              "at": "25/11/20 09:33"
+            },
+            {
+              "from": "them",
+              "text": "수영은 계속하고 있다며.",
+              "at": "26/05/03 18:20"
+            },
+            {
+              "from": "me",
+              "text": "네 취미로 하고 있어요",
+              "at": "26/05/03 18:21"
+            },
+            {
+              "from": "them",
+              "text": "기록 좋더라.",
+              "at": "26/05/03 18:22"
+            },
+            {
+              "from": "them",
+              "text": "마음 바뀌면 연락해라.",
+              "at": "26/05/03 18:22"
+            }
+          ],
+          "replies": [
+            {
+              "keys": [
+                "복귀",
+                "대회"
+              ],
+              "text": "생각 바뀌면 말해. 자리는 있다."
+            }
+          ],
+          "fallback": [
+            "그래. 몸 챙겨라."
+          ]
+        }
+      ]
+    }
+  },
   // '서편화': { battery: 42, wallpaper: '#1a1a2e', text: '' },
 };
 const NOT_FOUND_MSG = '다시 확인해 주세요.';
@@ -5977,12 +7210,27 @@ function startTimedTexts(cfg){
   }, x.afterSec * 1000)));
 }
 
+/* screenDamage: true 또는 [{x:0~1(가로 위치), c:'색', w:굵기px}] */
+const DMG_DEFAULT = [{x:.17,c:'#d940d6'},{x:.35,c:'#d940d6'},{x:.395,c:'#c92fd0'},{x:.465,c:'#d940d6'},{x:.565,c:'#64e064'}];
+function paintDamage(d){
+  const old = $('dmg'); if (old) old.remove();
+  if (!d) return;
+  const box = el('div'); box.id = 'dmg';
+  (Array.isArray(d) ? d : DMG_DEFAULT).forEach(l => {
+    const i = el('i');
+    i.style.left = (l.x * 100) + '%'; i.style.width = (l.w || 1.5) + 'px'; i.style.background = l.c; i.style.color = l.c;
+    box.appendChild(i);
+  });
+  $('phone').appendChild(box);
+}
+
 function openHome(){
   const cfg = NAMES[userName];
   $('home').style.background = cfg.wallpaper;
   setBattery(cfg.battery);
   CUR = cfg.apps || {};
   CURBAT = cfg.battery;
+  paintDamage(cfg.screenDamage);
   unsavedTries = 0;
   document.querySelectorAll('#hgrid .appic').forEach(b => {          // apps.locked: ['couple'] 처럼 적으면 그 앱은 눌리지 않음
     b.classList.toggle('dis', !b.dataset.touch || (CUR.locked || []).includes(b.dataset.app));
@@ -6113,15 +7361,18 @@ function deliverAfterCall(c){
   c.doneAfter = c.doneAfter || {};
   if (!a || c.doneAfter[a.count]) return;
   c.doneAfter[a.count] = true;
-  let t = threads.find(x => x.name === c.name);
-  if (!t){ t = { name: c.name, replies: c.replies || [], msgs: [] }; threads.push(t); }
-  const now = new Date();
-  a.msgs.forEach((text, i) => {
-    t.msgs.push({ from: 'them', text, ts: now, read: false });
-    setTimeout(() => notify('sms', t.name, text, () => { closeCall(); show('msgApp'); openThread(threads.indexOf(t)); }), 600 + i * 1200);
-  });
-  updateBadge(); renderLog();
-  if ($('m-list').classList.contains('on')) renderList();
+  const go = () => {                                  // delaySec: 통화가 끝나고 N초 뒤에 문자 도착
+    let t = threads.find(x => x.name === c.name);
+    if (!t){ t = { name: c.name, replies: c.replies || [], msgs: [] }; threads.push(t); }
+    const now = new Date();
+    a.msgs.forEach((text, i) => {
+      t.msgs.push({ from: 'them', text, ts: now, read: false });
+      setTimeout(() => notify('sms', t.name, text, () => { closeCall(); show('msgApp'); openThread(threads.indexOf(t)); }), 600 + i * 1200);
+    });
+    updateBadge(); renderLog();
+    if ($('m-list').classList.contains('on')) renderList();
+  };
+  if (a.delaySec) timedHandles.push(setTimeout(go, a.delaySec * 1000)); else go();
 }
 
 function finishCall(){
@@ -6629,7 +7880,7 @@ function loadKakao(cfg){
   kk.chats = (k.chats || []).map(t => ({
     name: t.name, replies: t.replies || [], fallback: t.fallback, first: t.first, seq: t.seq, count: t.count || 0, firstReply: t.firstReply || null, showReaders: t.showReaders !== false,
     byPeople: !!t.byPeople, gated: !!t.gated, inviteAfter: t.inviteAfter || '', inviteMsgs: t.inviteMsgs || [],
-    msgs: t.msgs.map(m => ({ from: m.from, who: m.who || '', text: m.text, ts: parseAt(m.at), read: !m.unread }))
+    msgs: t.msgs.map(m => ({ from: m.from, who: m.who || '', text: m.text, ts: parseAt(m.at), read: !m.unread, unreadBy: m.unreadBy || 0 }))
   }));
   kk.openIdx = -1; kk.pending = 0;
   $('k-room').classList.remove('on');
@@ -6979,6 +8230,7 @@ function renderHomeWidgets(cfg){
   $('wgEv').textContent = todos.length ? todos.slice(0, 2).join('\n') : '오늘 할 일 없음';
   initMusic(a.music || {});
   coupleAns = (((a.couple || {}).answers) || []).concat(['','','','']).slice(0, 4).map(x => String(x || ''));
+  coupleWelcomed = false;
 }
 
 /* ====================================================
@@ -7163,6 +8415,9 @@ const NEWS = [
     ] },
 ];
 
+/* apps.news: { 1: { title, reporter, body, comments:[[닉네임, 내용, '2시간 전', 좋아요]] } } → 번호(0부터)의 기사를 이 이름에서만 교체 */
+function newsList(){ return NEWS.map((n, i) => Object.assign({}, n, (CUR.news || {})[i] || {})); }
+
 function renderInternet(box){
   const dateStr = () => { const d = new Date(); return `${d.getFullYear()}.${pad(d.getMonth() + 1)}.${pad(d.getDate())}`; };
   const addr = () => {
@@ -7188,7 +8443,7 @@ function renderInternet(box){
     btn.addEventListener('click', history);                       // 검색은 안 되고 기록만 보임
     input.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.isComposing) history(); });
     pg.appendChild(el('div','in-sec','실시간 기사'));
-    NEWS.forEach((n, i) => {
+    newsList().forEach((n, i) => {
       const a = el('button','in-art'); a.type = 'button';
       a.appendChild(el('b','',n.title));
       a.appendChild(el('span','',n.reporter));
@@ -7216,7 +8471,7 @@ function renderInternet(box){
   }
 
   function article(i){
-    const n = NEWS[i];
+    const n = newsList()[i];
     box.innerHTML = '';
     addr();
     gBack(box, '‹ 목록', home);
@@ -7383,6 +8638,14 @@ const COUPLE_Q = [
 ];
 const COUPLE_TODAY = 3;                  // 오늘의 질문 (COUPLE_Q 의 4번째)
 let coupleAns = ['','','',''];
+let coupleWelcomed = false;
+
+/* apps.couple: { answers:[...], questions:[4개 질문(마지막이 오늘의 질문)], startNo:97 (질문 번호), welcome:'팝업 문구' } */
+function coupleQ(i){
+  const c = CUR.couple || {};
+  const q = (c.questions || COUPLE_Q)[i];
+  return (c.startNo != null ? 'Q' + (c.startNo + i) + '. ' : 'Q. ') + q;
+}
 
 function renderCouple(box){
   function intro(){
@@ -7397,7 +8660,7 @@ function renderCouple(box){
     box.innerHTML = '';
     box.appendChild(el('div','cp-h','오늘의 질문'));
     const card = el('div','cp-card');
-    card.appendChild(el('div','cp-q','Q. ' + COUPLE_Q[COUPLE_TODAY]));
+    card.appendChild(el('div','cp-q', coupleQ(COUPLE_TODAY)));
     const ta = el('textarea'); ta.placeholder = '답변을 입력하세요';
     card.appendChild(ta); box.appendChild(card);
     const btn = el('button','cp-btn','제출'); btn.type = 'button'; btn.disabled = true;
@@ -7409,6 +8672,15 @@ function renderCouple(box){
       coupleAns[COUPLE_TODAY] = v;
       list();
     });
+    const w = (CUR.couple || {}).welcome;
+    if (w && !coupleWelcomed){                       // 오랜만에 오셨네요 팝업 (확인 누르면 내려감)
+      coupleWelcomed = true;
+      const ov = el('div','cp-pop'), bx = el('div','cp-popbox');
+      bx.appendChild(el('div','cp-popt', w));
+      const ok = el('button','cp-popok','확인'); ok.type = 'button';
+      ok.addEventListener('click', () => ov.remove());
+      bx.appendChild(ok); ov.appendChild(bx); box.appendChild(ov);
+    }
   }
   function list(){
     box.innerHTML = '';
@@ -7416,7 +8688,7 @@ function renderCouple(box){
     const sc = el('div','ga-scroll'); box.appendChild(sc);
     COUPLE_Q.forEach((q, i) => {
       const card = el('div','cp-card');
-      card.appendChild(el('div','cp-q','Q. ' + q));
+      card.appendChild(el('div','cp-q', coupleQ(i)));
       const a = coupleAns[i];
       card.appendChild(el('div','cp-a' + (a ? '' : ' none'), 'A. ' + (a || '아직 답변하지 않았어요.')));
       sc.appendChild(card);
